@@ -10,11 +10,9 @@ const protect = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      //decodes token id
       const decoded = jwt.verify(token,"hello");
-      //   res.json(decoded);
       const temp = await pool.query(
-        `select * from students where SID = '${decoded.id}'`
+        `select * from Login where SID = '${ID}'`
       );
       req.user = temp.rows[0];
       console.log("decoded");

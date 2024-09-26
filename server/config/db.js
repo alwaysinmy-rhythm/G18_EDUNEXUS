@@ -21,3 +21,5 @@ pool
     console.error("Error connecting to PostgreSQL:", err.message);
     process.exit(1);
   });
+
+  module.exports = pool;
