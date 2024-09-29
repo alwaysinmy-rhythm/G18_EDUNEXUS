@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import { List, arrayMove } from 'react-movable';
-import Calendar from './Calender';
-import ProgressBar from './ProgressBar';
+import Calendar from './Calendar';
+import DashNotice from './DashNotice';
 import {Paper} from '@mui/material';
+// import {Button} from '@mui/material';
+// import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+
+
 
 const App = () => {
+
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleDateChange=(date)=>{
+    setSelectedDate(date);
+    console.log(selectedDate);
+  }
   const [items, setItems] = useState([
-    <Paper sx={{padding:'0'}} ><Calendar /></Paper>,
-    <ProgressBar/>
+    <Paper sx={{padding:'0', borderRadius:'20px 20px 20px 20px'}} ><Calendar 
+    date={selectedDate}
+    onChange={handleDateChange} />
+      {/* <Button variant="outlined" startIcon={<EditCalendarIcon sx={{display:'hidden'}}/>}>Add Event</Button> */}
+    </Paper>,
+    <DashNotice/>
     
   ]);
 
@@ -16,7 +31,7 @@ const App = () => {
       style={{
         // maxWidth: '100%',
 
-        // maxHeight:'100vh',
+        // maxHeight:'100px',
         // margin: '10px auto',
         // backgroundColor: '#F7F7F7',
         paddingRight: '10px',
@@ -52,12 +67,12 @@ const App = () => {
               
               listStyleType: 'none',
               cursor: isDragged ? 'grabbing' : 'grab',
-              border: '2px solid #CCC',
+              // border: '2px solid #CCC',
               // boxShadow: '3px 3px #AAA',
               color: '#333',
               borderRadius: '5px',
               fontFamily: 'Arial, "Helvetica Neue", Helvetica, sans-serif',
-              backgroundColor: isDragged || isSelected ? '#EEE' : '#FFF',
+              // backgroundColor: isDragged || isSelected ? '#EEE' : '#FFF',
             }}
           >
             {value}

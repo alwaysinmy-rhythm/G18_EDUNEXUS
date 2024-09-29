@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -20,6 +19,8 @@ import CourseRegIcon from '@mui/icons-material/EditNote';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { Paper} from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 const drawerWidth = 260;
 
@@ -95,8 +96,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(window.screen.width<'900'?false:true);
+  const isAbove900px = useMediaQuery('(max-width:900px)');
 
   const handleDrawer = ()=>{
     setOpen(open?false:true);
@@ -109,9 +110,10 @@ export default function MiniDrawer() {
       
       <Drawer variant="permanent" open={open}>
         <DrawerHeader >
-          <IconButton onClick={handleDrawer}>
+          {isAbove900px && ( <IconButton onClick={handleDrawer}>
             <MenuIcon />
-          </IconButton>
+          </IconButton>)}
+          
         </DrawerHeader>
         <Divider />
         <List>
@@ -224,6 +226,7 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List>
+        <img src='../Images/student.png'></img>
       </Drawer>
       </Paper>
     </Box>

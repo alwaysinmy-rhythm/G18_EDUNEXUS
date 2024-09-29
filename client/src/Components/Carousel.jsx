@@ -1,7 +1,7 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel';
 import slider from "./Helper/slider.json";
-import Item from './Item'; // Assuming this handles the display of each item
+import Item from './Item'; 
 
 export default function CarouselBack(props) {
     return (

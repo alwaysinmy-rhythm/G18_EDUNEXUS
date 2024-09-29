@@ -2,21 +2,23 @@ import * as React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-
+import { Paper } from "@mui/material";
 // Component that combines CircularProgress with a label inside it
 function CircularProgressWithLabel(props) {
   return (
-    <Box sx={{ position: "relative", display: "block" ,marginLeft:'30%',marginTop:'20px',justifyContent:'center',alignItems:'center'}}>
+    <Paper sx={{width:'100%',  borderRadius:'20px 20px 20px 20px'}}>
+    <Box sx={{ position: "relative", display: "block" ,marginLeft:'30%',justifyContent:'center',alignItems:'center',paddingTop:'10%'}}>
       <CircularProgress
         variant="determinate"
-        size={120}
+        size={130}
         thickness={5}
         
         {...props}
       />
+      
       <Box
         sx={{
-          top: 0,
+          top: '20%',
           left: 0,
           bottom: 0,
           right: 0,
@@ -38,6 +40,7 @@ function CircularProgressWithLabel(props) {
       </Box>
       <h4>Attendance</h4>
     </Box>
+      </Paper>
   );
 }
 
