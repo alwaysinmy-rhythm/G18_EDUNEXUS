@@ -22,7 +22,7 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(to bottom right, #ADD8E6, #FFFFFF)', // Gradient from top-left to bottom-right
+          background: 'linear-gradient(to top left, #FFFFFF, #ADD8E6)', // Gradient from top-left to bottom-right
           minHeight: '100vh',
           margin: 0,
           padding: 0,

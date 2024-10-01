@@ -20,6 +20,7 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { Paper} from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Link } from 'react-router-dom';
 
 
 const drawerWidth = 260;
@@ -119,19 +120,15 @@ export default function MiniDrawer() {
         <List>
           {['Dashboard', 'Courses', 'Report',  'Chat'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <Link to={`/${text.toLowerCase()}`} style={{textDecoration:'none'}}>
+
               <ListItemButton
                 sx={[
                   {
                     minHeight: 48,
                     px: 2.5,
                   },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
-                        justifyContent: 'center',
-                      },
+                  open?{justifyContent: 'initial'}: {justifyContent: 'center'},
                 ]}
               >
                 <ListItemIcon
@@ -149,7 +146,8 @@ export default function MiniDrawer() {
                         },
                   ]}
                 >
-                  {index === 0 && <DashboardIcon />}
+                  
+                  <Link to={'/dashboard'}>{index === 0 && <DashboardIcon />}</Link>
                   {index === 1 && <SchoolIcon />}
                   {index === 2 && <ReportIcon />}
                   {index === 3 && <ChatIcon />}
@@ -165,9 +163,12 @@ export default function MiniDrawer() {
                           opacity: 0,
                         },
                   ]}
+
                 />
               </ListItemButton>
+              </Link>
             </ListItem>
+
           ))}
         </List>
         <Divider />
