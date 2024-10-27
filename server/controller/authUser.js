@@ -84,8 +84,35 @@ const viewProfile = async (req, res) => {
   }
 };
 
+const editProfile = async (req, res) => {
+  const {
+  SID, Sname, Fname, Mname, Bdate, Addr_street, Addr_city, Addr_state, Emergency_no, EmailId, gender, year, program, department, branch, CPI, admission_rank, admission_through
+  } = req.body;
+  try {
+    await pool.query('BEGIN');
+    // Updating to Student table...
+    const personalQuery = ` UPDATE Student_Personal SET Sname = $1, Fname = $2, Mname = $3, Bdate = $4, Addr_street = $5, Addr_city = $6,  Addr_state = $7, Emergency_no = $8, EmailId = $9, gender = $10  WHERE SID = $11`;
+    const personalValues = [Sname, Fname, Mname, Bdate, Addr_street, Addr_city, Addr_state, Emergency_no, EmailId, gender, SID];
+    await pool.query(personalQuery, personalValues);
+    // Updating to Student_Academic table...
+    const academicQuery = `UPDATE Student_Academic SET year = $1, program = $2, department = $3, branch = $4, CPI = $5, admission_rank = $6, admission_through = $7  WHERE SID = $8`;
+    const academicValues = [year, program, department, branch, CPI, admission_rank, admission_through, SID];
+    await pool.query(academicQuery, academicValues);
+    await pool.query('COMMIT');
+    res.status(200).json({ message: 'OK' });
+} catch (error) {
+    await pool.query('ROLLBACK');
+    if (error.code === '23503' || error.code === '23505') {
+      res.status(400).json({ error: 'Error due to wrong input!!' });
+    }else {
+      res.status(500).json({ error: 'Internal Server Error!!' });
+    }
+}
+};
+
 module.exports = {
   authUser,
-  viewProfile
+  viewProfile,
+  editProfile
 };
 
