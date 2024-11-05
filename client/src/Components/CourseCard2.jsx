@@ -6,8 +6,8 @@ import PeopleIcon from "@mui/icons-material/People";
 
 import { useNavigate } from "react-router-dom";
 
-const Card = ({ courseName, instructor, avatarLetter, courseCode }) => {
-
+import PropTypes from "prop-types";
+const CourseCard2 = ({ courseName, instructor, avatarLetter, courseCode }) => {
 	const navigate = useNavigate();
 
 	return (
@@ -93,14 +93,16 @@ const StyledWrapper = styled.div`
 
 	.card {
 		width: 15em;
+
 		height: 10em;
-		background: linear-gradient(270deg, #ce68d9, #45c6db, #45db79);
+		// background: linear-gradient(270deg, #ce68d9, #45c6db, #45db79);
+		background: linear-gradient(270deg, #4a90e2, #50a7f9, #6ec1ff);
 		background-size: 800% 800%;
 
 		// -webkit-animation: AnimationName 5s ease infinite;
 		// -moz-animation: AnimationName 5s ease infinite;
 		// animation: AnimationName 5s ease infinite;
-		
+
 		transition: 0.4s ease-in-out;
 		border-radius: 7px;
 		cursor: pointer;
@@ -122,7 +124,7 @@ const StyledWrapper = styled.div`
 	}
 
 	.fullscreen {
-		width: 1.5em;   
+		width: 1.5em;
 		height: 1.5em;
 		border-radius: 5px;
 		background-color: #727890;
@@ -146,7 +148,8 @@ const StyledWrapper = styled.div`
 		position: absolute;
 		width: 15em;
 		height: 13em;
-		background-color: rgba(30, 31, 38, 0.575);
+		background-color: rgba(30, 31, 38, 0.6);
+		// background-color: rgba(10, 30, 30, 0.5);
 		border-radius: 7px;
 		margin-top: -4.7em;
 		margin-left: 0.7em;
@@ -207,8 +210,8 @@ const StyledWrapper = styled.div`
 	}
 
 	.likes {
-    color:white;
-    
+		color: white;
+
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -271,7 +274,7 @@ const StyledWrapper = styled.div`
 	}
 
 	.views {
-    color:white;
+		color: white;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -362,54 +365,62 @@ const StyledWrapper = styled.div`
 		background: rgba(255, 255, 255, 0.2);
 		border-radius: 15px;
 		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-		backdrop-filter: blur(5px);
-		-webkit-backdrop-filter: blur(5px);
-		border: 1px solid rgba(255, 255, 255, 0.3);
+		// backdrop-filter: blur(5px);
+		// -webkit-backdrop-filter: blur(5px);
+		// border: 1px solid rgba(255, 255, 255, 0.3);
 	}
 
 	button:hover::after {
 		position: relative;
 		opacity: 1;
 		font-size: 0.7em;
+		
 	}
 
-	@keyframes AnimationName {
-		0% {
-			background-position: 0% 50%;
-		}
+	// @keyframes AnimationName {
+	// 	0% {
+	// 		background-position: 0% 50%;
+	// 	}
 
-		50% {
-			background-position: 100% 50%;
-		}
+	// 	50% {
+	// 		background-position: 100% 50%;
+	// 	}
 
-		100% {
-			background-position: 0% 50%;
-		}
-	}
+	// 	100% {
+	// 		background-position: 0% 50%;
+	// 	}
+	// }
 
-	button:active {
-		scale: 1.1;
-		opacity: 1;
-		color: transparent;
-		background: linear-gradient(
-			90deg,
-			#ce68d9,
-			#45c6db,
-			#45db79,
-			#9f45b0,
-			#e54ed0,
-			#ffe4f2
-		);
-		background-size: 800% 800%;
-		-webkit-animation: AnimationName 1s ease infinite;
-		-moz-animation: AnimationName 1s ease infinite;
-		animation: AnimationName 1s ease infinite;
-	}
+	// button:active {
+	// 	scale: 1.1;
+	// 	opacity: 1;
+	// 	color: transparent;
+	// 	background: linear-gradient(
+	// 		90deg,
+	// 		#ce68d9,
+	// 		#45c6db,
+	// 		#45db79,
+	// 		#9f45b0,
+	// 		#e54ed0,
+	// 		#ffe4f2
+	// 	);
+	// 	background-size: 800% 800%;
+	// 	// -webkit-animation: AnimationName 1s ease infinite;
+	// 	// -moz-animation: AnimationName 1s ease infinite;
+	// 	// animation: AnimationName 1s ease infinite;
+	// }
 
-	button:active::before {
-		color: white;
-		opacity: 1;
-	}
+	// button:active::before {
+	// 	color: white;
+	// 	opacity: 1;
+	// }
 `;
 
-export default Card;
+CourseCard2.propTypes = {
+	courseName: PropTypes.string.isRequired,
+	instructor: PropTypes.string.isRequired,
+	avatarLetter: PropTypes.string.isRequired,
+	courseCode: PropTypes.string.isRequired,
+};
+
+export default CourseCard2;
