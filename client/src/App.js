@@ -10,6 +10,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Sample from './Pages/sample';
 import {Avatar, Box} from '@mui/material';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import FeePays from './Pages/FeePays';
+import Scholarship from './Pages/Scholarship';
 
 
 function Layout() {
@@ -62,6 +64,14 @@ const router = createBrowserRouter(
         {
           path:'/sample',
           element:<Sample/>,
+        },
+        {
+          path:'/feepayments',
+          element:<FeePays />,
+        },
+        {
+          path:'/scholarship',
+          element: <Scholarship/>,
         }
       ],
     },
