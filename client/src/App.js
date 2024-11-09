@@ -15,7 +15,7 @@ import { Avatar, Box } from "@mui/material";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import ProfDashboard from "./Pages/ProfDashboard";
 import Courses from "./Components/MyCourse/Courses";
-
+import CourseRegistration from './Pages/CourseRegistration';
 
 
 function Layout() {
@@ -81,10 +81,14 @@ const router = createBrowserRouter([
         path: 'AllCourse',
         element: <AllCourse />,
       },
-	  {
-		path: "/courses",
-		element: <Courses />
-	  }
+	    {
+		    path: "/courses",
+		    element: <Courses />
+	    },
+      {
+        path:"/CourseRegistration",
+        element: <CourseRegistration />,
+      }
     ],
   },
 ]);
