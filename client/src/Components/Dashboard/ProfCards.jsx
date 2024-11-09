@@ -14,22 +14,7 @@ function ProfCards() {
     <Box>
       <Grid container>
         <h1>Welcome, Sir</h1>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            padding: '16px',
-            display:'flex',
-          }}
-        >
-          <NotificationsNoneIcon 
-          fontSize="large" 
-          sx={{marginRight:'30px',marginTop:'5px'}}>
-
-          </NotificationsNoneIcon>
-          <Avatar alt="User image" src="./favicon.ico" />
-        </Box>
+        
         <Grid container spacing={2} sx={{ marginTop: '16px' }}>
           <Grid container md={8} sx={{ marginTop: '30px' }}>
             <TimeTable />
