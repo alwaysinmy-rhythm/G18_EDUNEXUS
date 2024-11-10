@@ -16,6 +16,8 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import ProfDashboard from "./Pages/ProfDashboard";
 import Courses from "./Components/MyCourse/Courses";
 import CourseRegistration from './Pages/CourseRegistration';
+import FeesPayment from './Pages/FeePays';
+import Scholarship from './Pages/Scholarship';
 
 
 function Layout() {
@@ -88,6 +90,14 @@ const router = createBrowserRouter([
       {
         path:"/CourseRegistration",
         element: <CourseRegistration />,
+      },
+      {
+        path:'/FeesPayment',
+        element:<FeesPayment />,
+      },
+      {
+        path:'/scholarship',
+        element: <Scholarship/>,
       }
     ],
   },
