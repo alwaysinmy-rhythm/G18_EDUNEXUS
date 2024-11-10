@@ -4,7 +4,8 @@
   "description": "SE Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "powershell -ExecutionPolicy Bypass -Command \"nodemon server.js\""
   },
   "author": "Group 18",
   "license": "ISC",

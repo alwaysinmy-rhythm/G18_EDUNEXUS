@@ -1,6 +1,6 @@
 import React from 'react';
-import FeePayments from '../Components/FeePayments';
-import InformationDetails from '../Components/InformationDetails';
+import FeePayments from '../Components/FeesPayment/FeePayments';
+import InformationDetails from '../Components/FeesPayment/InformationDetails';
 
 
 const FeePays = () => {

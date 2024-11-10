@@ -4,7 +4,6 @@
 /client/node_modules
 /client/.pnp
 /client/.pnp.js
-
 /client/# testing
 /client//coverage
 
@@ -21,6 +20,7 @@
 /client/npm-debug.log*
 /client/yarn-debug.log*
 /client/yarn-error.log*
+/client/.env
 
 # Server
 /server/node_modules

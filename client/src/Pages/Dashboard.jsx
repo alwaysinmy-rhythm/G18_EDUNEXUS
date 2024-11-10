@@ -1,21 +1,15 @@
-import React from 'react'
-import { Box, Grid } from '@mui/material';
-import Paper from '@mui/material/Paper';
-// import Navbar from "../Components/Navbar"
-import DashCards from '../Components/DashCards';
+import React from 'react';
+import { Box } from '@mui/material';
+import DashCards from '../Components/Dashboard/DashCards';
 
 function Dashboard() {
     return (
-        <>
-        <Box>
-        {/* <Navbar /> */}
-            <DashCards>
-              
-            </DashCards>
+        <Box sx={{ position: 'relative', minHeight: '100vh' }}>
+            {/* <Navbar /> */}
+            <DashCards />
+           
         </Box>
-        </>
-      
     );
-  }
+}
 
 export default Dashboard;
