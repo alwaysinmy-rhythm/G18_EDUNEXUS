@@ -1,10 +1,31 @@
 const express= require("express");
+const pool = require("../config/db");
 const router = express.Router();
 const { spawn } = require('child_process');
 
 // Improved Python process runner with debugging
 const courseAllotmentController = async (req, res) => {
-    const preferenceData = req.body;
+
+    const student_pref = await pool.query(
+        'select * from edunexus.studentPreference'
+    );
+
+    let preferenceList = {};
+   
+    console.log(student_pref.rows.length);
+    for( let i =0 ; i< student_pref.rows.length ; i++){
+        console.log(student_pref.rows[i]); 
+        preferenceList[student_pref.rows[i].sid] = [
+            student_pref.rows[i].preference1,
+            student_pref.rows[i].preference2,
+            student_pref.rows[i].preference3,
+            student_pref.rows[i].preference4,
+            student_pref.rows[i].preference5
+        ];
+    }
+    console.log(preferenceList);
+    const preferenceData = {student_preferences:preferenceList , courseLimit : req.body.courseLimit , numberOfAllocations : req.body.numberOfAllocations};
+    console.log(preferenceData);
     if (!preferenceData.student_preferences) {
         return res.status(400).json({ message: "preference list is not provided" });
     }
