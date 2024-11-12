@@ -35,15 +35,15 @@ const authUser = async (req, res) => {
 const viewProfile = async (req, res) => {
   try {
     console.log(req.body)
+
     const studentSID = req.body.SID; 
     const personalResult = await pool.query(`SELECT * FROM Student_Personal WHERE SID = $1`, [studentSID]);
 
     if (personalResult.rows.length === 0) {
       return res.status(404).json({ message: 'Student personal information not found!' });
     }
-
     const studentPersonal = personalResult.rows[0];
-
+  
     const academicResult = await pool.query(`SELECT * FROM Student_Academic WHERE SID = $1`, [studentSID]);
 
     if (academicResult.rows.length === 0) {
