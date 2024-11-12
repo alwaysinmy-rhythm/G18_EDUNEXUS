@@ -5,8 +5,8 @@ config();
 
 const pool = new Pool({
   user: "postgres",
-  password: "Jaimin@123",
-  database: "edunexus",
+  password: "12345",
+  database: "EduNexus",
   host: "localhost",
   port: 5432
 
