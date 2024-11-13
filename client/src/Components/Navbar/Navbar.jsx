@@ -110,7 +110,7 @@ export default function Navbar() {
           </DrawerHeader>
           <Divider />
           <List>
-            {['Dashboard', 'Courses', 'Report', 'Chat'].map((text, index) => (
+            {['Dashboard', 'Courses', 'Result', 'Chat'].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                 <Link to={`/${text.toLowerCase()}`} style={{ textDecoration: 'none' }}>
                   <ListItemButton
