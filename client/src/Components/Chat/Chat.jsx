@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
+import axios from 'axios';
 import ChatIconImage from '../../Images/chatIcon.png';
 import '../../CSS/Chat.css';
 import Select from '@mui/material/Select';
@@ -16,6 +17,21 @@ function Chat() {
   const [textMessage, setTextMessage] = useState(''); // Example initial message
   const handleChange = (event) => {
     setValue(event.target.value);
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchMessages();
+    }
+  }, [value, isOpen]);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get(`/api/messages/${value}`);
+      setMessages(response.data); // Assume the response data is an array of messages
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
   };
 
   const toggleChat = () => {
