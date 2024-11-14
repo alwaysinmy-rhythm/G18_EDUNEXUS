@@ -12,6 +12,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CarouselBack from "../Components/Login/Carousel";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+
+const ENDPOINT="http://localhost:3001";
 
 const defaultTheme = createTheme();
 const UserRole = {
@@ -20,14 +25,33 @@ const UserRole = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
   const [capVal, setcapVal] = useState(null);
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(UserRole.STUDENT);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Current User Role:", currentUser);
+    try {
+      const response = await axios.post(`${ENDPOINT}/api/user/login`, {
+        SID: userid,
+        password: password,
+        role: currentUser
+      });
+      console.log(response.data.success);
+      if (response.data.success) {
+        console.log("Login Successful", response.data);
+        if (currentUser === UserRole.STUDENT) {
+          navigate("/dashboard");
+        } else if (currentUser === UserRole.FACULTY) {
+          navigate("/profdashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Login failed", error.response.data.message);
+    }
   };
 
   const handleStudentLogin = () => {

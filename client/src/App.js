@@ -18,6 +18,7 @@ import Courses from "./Components/MyCourse/Courses";
 import CourseRegistration from './Pages/CourseRegistration';
 import FeesPayment from './Pages/FeePays';
 import Scholarship from './Pages/Scholarship';
+import Profile from './Pages/Profile'
 
 
 function Layout() {
@@ -98,7 +99,12 @@ const router = createBrowserRouter([
       {
         path:'/scholarship',
         element: <Scholarship/>,
+      },
+      {
+        path: '/Profile',
+        element: <Profile />
       }
+
     ],
   },
 ]);
