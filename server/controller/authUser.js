@@ -3,38 +3,97 @@ const generateToken = require("../config/generateToken");
 
 const authUser = async (req, res) => {
   console.log("Login attempt received");
-  const { SID, password } = req.body;
+  const { SID, password,role } = req.body;
+
 
   const userExists = await pool.query(
     `select * from Login where SID='${SID}'`
   );
-  console.log(userExists.rows[0]);
 
   if (userExists.rows.length) {
-    const user = userExists.rows[0];
+
+    if(userExists.rows[0].role !=role ){
+      return res
+       .status(401)
+       .json({ success: false, message: `You don't have a permission as ${role}` });
+
+     }
+
+     const user = userExists.rows[0];
     const isValidPassword = await pool.query(
       `SELECT password = crypt('${password}', password) as valid FROM Login WHERE SID='${SID}'`
     );
 
+    
+
     if (isValidPassword.rows[0].valid) {
       console.log("Password matched");
       res.status(201).json({
-        _id: user.id,
+        role: user.role,
         SID: user.SID,
-        token: generateToken(user.id),
+        token: generateToken(user.role),
+        success: true
       });
+      } else {
+        console.log(err);
+        return res.status(401).json({ success: false, message: "Invalid Password" });
+      }
+  } else
+   return res
+      .status(400)
+      .json({ success: false, message: "Login failed User not found" });
+};
+
+
+const authRole = async (req, res) => {
+  // console.log(req.body);
+  const { SID ,role } = req.body;
+
+  console.log(req.body);
+  console.log("Reached authRole");
+
+  try {
+    const userExists = await pool.query(
+      `select * from login where SID='${SID}'`
+    );
+
+    if (userExists.rows.length) {
+
+      // console.log(userExists.rows[0]);
+
+      if(role == userExists.rows[0].role){
+        res.status(201).json({
+          
+          SID: userExists.rows[0].SID,
+          role:userExists.rows[0].role,
+          token: generateToken(userExists.rows[0].role),
+        });
+
+        console.log("Login Successful")
+      }
+
+      else{
+        console.log(role);
+        console.log(userExists.rows[0].role);
+
+        return res
+        .status(401)
+        .json({ success: false, message: `You don't have a permission as ${role}` });
+
+       }
     } else {
-      console.log("Password does not match");
-      res.status(401).json({ success: false, message: "Invalid Password" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found Please Login" });
     }
-  } else {
-    res.status(400).json({ success: false, message: "Login failed, user not found" });
+   } catch (err) {
+    console.log(err);
+    return res.status(400).json({ success: false, message: err });
   }
 };
 
 const viewProfile = async (req, res) => {
   try {
-    console.log(req.body)
 
     const studentSID = req.body.SID; 
     const personalResult = await pool.query(`SELECT * FROM Student_Personal WHERE SID = $1`, [studentSID]);
@@ -113,6 +172,7 @@ const editProfile = async (req, res) => {
 module.exports = {
   authUser,
   viewProfile,
-  editProfile
+  editProfile,
+  authRole
 };
 

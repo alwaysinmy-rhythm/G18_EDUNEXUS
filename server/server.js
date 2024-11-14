@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 const pool = require("./config/db");
 const authUser = require("./controller/authUser");
 const groupChatRoutes = require("./Routes/chatRoutes");
+const adminRoutes = require("./Routes/adminRoutes")
 dotenv.config();
 
 const server = http.createServer(app);
@@ -29,7 +30,7 @@ app.use((req, res, next) => {
 
 app.use('/api/user',userRoutes);
 app.use('/api/groupChat', groupChatRoutes);
-
+app.use('/api/admin',adminRoutes)
 
 
 io.on("connection", (socket) => {
