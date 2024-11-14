@@ -5,6 +5,7 @@ const authUser = async (req, res) => {
   console.log("Login attempt received");
   const { SID, password,role } = req.body;
 
+
   const userExists = await pool.query(
     `select * from Login where SID='${SID}'`
   );
@@ -23,12 +24,15 @@ const authUser = async (req, res) => {
       `SELECT password = crypt('${password}', password) as valid FROM Login WHERE SID='${SID}'`
     );
 
+    
+
     if (isValidPassword.rows[0].valid) {
       console.log("Password matched");
       res.status(201).json({
         role: user.role,
         SID: user.SID,
         token: generateToken(user.role),
+        success: true
       });
       } else {
         console.log(err);
@@ -90,7 +94,6 @@ const authRole = async (req, res) => {
 
 const viewProfile = async (req, res) => {
   try {
-    console.log(req.body)
 
     const studentSID = req.body.SID; 
     const personalResult = await pool.query(`SELECT * FROM Student_Personal WHERE SID = $1`, [studentSID]);

@@ -7,21 +7,22 @@ const dashboard = async (req,res)=>{
 
     const attendance_data = await get_attendance(req,res);
     const upcoming_events_data = await upcoming_events(req,res);
-    const notice_board_data = await notice_board(req,res);
+    //const notice_board_data = await notice_board(req,res);
     const time_table_data = await time_table(req,res);
    
     res.status(200).json({
         success : true,
         attendance_data: attendance_data,
         upcoming_events_data: upcoming_events_data,
-        notice_board_data : notice_board_data,
+        //notice_board_data : notice_board_data,
         time_table_data : time_table_data
     })
 }
 
 const get_attendance = async (req,res)=>{
     try {
-     
+    // console.log("Attend");
+    //   console.log(req.user);
       const StudentID = req.query.SID;
   
       const current_date = new Date();
