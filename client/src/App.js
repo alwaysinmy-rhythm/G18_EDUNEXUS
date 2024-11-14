@@ -19,6 +19,7 @@ import CourseRegistration from './Pages/CourseRegistration';
 import FeesPayment from './Pages/FeePays';
 import Scholarship from './Pages/Scholarship';
 import Profile from './Pages/Profile'
+import UserProvider from "./context/context";
 
 
 function Layout() {
@@ -116,10 +117,12 @@ function App() {
 
 	return (
 		<>
+    
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<RouterProvider router={router}></RouterProvider>
 			</ThemeProvider>
+     
 		</>
 	);
 }

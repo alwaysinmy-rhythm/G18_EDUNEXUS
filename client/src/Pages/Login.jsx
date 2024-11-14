@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CarouselBack from "../Components/Login/Carousel";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+// import { useContextState } from "../context/context";
 
 
 const ENDPOINT="http://localhost:3001";
@@ -31,6 +32,45 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(UserRole.STUDENT);
 
+  React.useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo && userInfo.token) {
+      roleCheck(userInfo); 
+      console.log("Rolecheck")
+    }
+  }, [navigate]);
+
+  const roleCheck = async (userInfo) => {
+    console.log("Current User Role:", currentUser);
+    try {
+      const response = await axios.post(
+        `${ENDPOINT}/api/user/authRole`, 
+        {
+          SID: userInfo.SID,
+          role: userInfo.role
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}` 
+          }
+        }
+      );
+      console.log(response.data);
+      if (response.data.success) {
+        console.log("Login Successful", response.data);
+        localStorage.setItem("userInfo", JSON.stringify(response.data));
+        if (response.data.role === "student") {
+          navigate("/dashboard");
+        } else if (response.data.role === "faculty") {
+          navigate("/profdashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Login failed", error.response.data);
+    }
+  };
+
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Current User Role:", currentUser);
@@ -42,7 +82,8 @@ export default function Login() {
       });
       console.log(response.data.success);
       if (response.data.success) {
-        console.log("Login Successful", response.data);
+        console.log( response.data);
+        localStorage.setItem("userInfo", JSON.stringify(response.data));
         if (currentUser === UserRole.STUDENT) {
           navigate("/dashboard");
         } else if (currentUser === UserRole.FACULTY) {
@@ -53,6 +94,14 @@ export default function Login() {
       console.error("Login failed", error.response.data.message);
     }
   };
+
+  const handleLogout = () =>{
+    localStorage.removeItem("userinfo");
+    localStorage.removeItem("_grecaptcha");
+
+    navigate('/login');
+
+  }
 
   const handleStudentLogin = () => {
     setCurrentUser(UserRole.STUDENT);
