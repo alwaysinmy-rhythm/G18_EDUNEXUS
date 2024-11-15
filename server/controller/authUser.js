@@ -25,17 +25,18 @@ const authUser = async (req, res) => {
     );
 
     
+    console.log(user);
 
     if (isValidPassword.rows[0].valid) {
       console.log("Password matched");
       res.status(201).json({
         role: user.role,
-        SID: user.SID,
+        SID: user.sid,
         token: generateToken(user.role),
         success: true
       });
       } else {
-        console.log(err);
+        console.log("error occure");
         return res.status(401).json({ success: false, message: "Invalid Password" });
       }
   } else
@@ -56,17 +57,18 @@ const authRole = async (req, res) => {
     const userExists = await pool.query(
       `select * from login where SID='${SID}'`
     );
+    console.log(userExists.rows[0]);
 
     if (userExists.rows.length) {
 
-      // console.log(userExists.rows[0]);
 
       if(role == userExists.rows[0].role){
         res.status(201).json({
           
-          SID: userExists.rows[0].SID,
+          SID: userExists.rows[0].sid,
           role:userExists.rows[0].role,
           token: generateToken(userExists.rows[0].role),
+          success:true
         });
 
         console.log("Login Successful")
