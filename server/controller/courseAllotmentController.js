@@ -9,21 +9,25 @@ let allocationBatch = null; //this variable defines whether the allocation is on
 const startAllocation = async (req, res) => {
     if(allocationBatch !== null){
         await pool.query('');
-        res.status(400).json({ message: `Allocation of batch ${allocationBatch} already in process`});
+        res.status(201).json({ message: `Allocation of batch ${allocationBatch} already in process`});
         return ;
     }
     allocationBatch = req.query.batch;
+    console.log(allocationBatch);
     res.status(200).json({ message: "Allocation started" });
 }
 //when admin approves the allocation of courses to students then this function is called
 //this function inserts the courses to the student's course_enrolled table and deletes the preferences from student_preference table
 //on approval of courses course-allotment process is completed
 const approveCourseAllotment = async (req, res) => {
-    const { sid, courses } = req.body;
-
-    if (!sid || !Array.isArray(courses) || courses.length !== 2) {
-        return res.status(400).json({ message: "Invalid request data" });
+    const studentCourses = req.body;
+    console.log(req.body);
+    for (const [sid, courses] of Object.entries(studentCourses)) {
+        if (!sid || !Array.isArray(courses) || courses.length !== 2) {
+            return res.status(400).json({ message: "Invalid request data" });
+        }
     }
+    
 
     const client = await pool.connect();
     try {

@@ -56,20 +56,51 @@ function Chat() {
   
   const fetchCourses = async (userInfo) => {
     try {
-      const response = await axios.post(
-        `${ENDPOINT}/api/groupChat/courses`,
-        { SID: userInfo.SID },
-        {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      );
-      setCourses(response.data); // Set courses data instead of messages
+      let response;
+      if (userInfo.SID.startsWith('S')) {
+        // Student endpoint
+        response = await axios.post(
+          `${ENDPOINT}/api/groupChat/courses`,
+          { SID: userInfo.SID },
+          {
+            headers: {
+              Authorization: `Bearer ${userInfo.token}`,
+            },
+          }
+        );
+      } else if (userInfo.SID.startsWith('P')) {
+        // Professor endpoint
+        response = await axios.post(
+          `${ENDPOINT}/api/groupChat/profcourses`,
+          { SID: userInfo.SID },
+          {
+            headers: {
+              Authorization: `Bearer ${userInfo.token}`,
+            },
+          }
+        );
+      }
+      const uniqueCourses = getUniqueCourses(response.data); // Remove duplicate courses
+      setCourses(uniqueCourses);// Set courses data
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
+  };
+
+  const getUniqueCourses = (courses) => {
+    const uniqueCourses = [];
+    const seenCourses = new Set();
+
+    courses.forEach(course => {
+      const courseIdentifier = `${course.Course_code}-${course.semester}-${course.year}`;
+      if (!seenCourses.has(courseIdentifier)) {
+        uniqueCourses.push(course);
+        seenCourses.add(courseIdentifier);
+      }
+    });
+
+    return uniqueCourses;
   };
 
   const toggleChat = () => {
@@ -150,7 +181,7 @@ function Chat() {
                 value={value}
                 onChange={handleChange}
                 sx={{
-                  width: '200px',
+                  width: '400px',
                   height: '30px',
                   backgroundColor: 'transparent',
                   color: 'black',
@@ -161,7 +192,7 @@ function Chat() {
               >
                 {courses.map((course, index) => (
                   <MenuItem key={index} value={course.course_code}>
-                    {course.course_code} - {course.prof_name}
+                  {course.Course_code} - {course.prof_name} ({course.semester} {course.year})
                   </MenuItem>
                 ))}
               </Select>

@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import '../CSS/Profile.css';
+import logo from '../Images/profile_logo.png';
+import TextField from '@mui/material/TextField';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+
+
 
 const Profile = () => {
     const [formData, setFormData] = useState({
@@ -26,7 +31,6 @@ const Profile = () => {
         jeeMains: '',
         jeeAdv: '',
         disabilities: '',
-        photo: null
     });
 
     const handleChange = (e) => {
@@ -46,51 +50,98 @@ const Profile = () => {
     return (
         <div className="container">
             <div className="header">
-                <img src="/logo.png" alt="University Logo" />
+                <img src={logo} alt="University Logo" />
             </div>
-            <form className="registration-form" onSubmit={handleSubmit}>
+            <form className="profile" onSubmit={handleSubmit}>
                 <h2>Student Profile</h2>
 
                 {/* Personal Information */}
                 <fieldset>
-                    <legend>Personal Information</legend>
+                    <legend className="personal">Personal Information</legend>
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="student-id">Student ID Number</label>
-                            <input type="text" id="student-id" name="studentId" onChange={handleChange} />
+                        <TextField
+                            label="Student ID Number"
+                            variant="standard"
+                            name="studentId"
+                            value={formData.studentId}
+                            onChange={handleChange}
+                            fullWidth
+                            // InputLabelProps={{
+                            //     style: {
+                            //         color: 'white', // Set label color to white
+                            //     },
+                            // }}
+                        />
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="first-name">First Name</label>
-                            <input type="text" id="first-name" name="firstName" required onChange={handleChange} />
+                        <TextField
+                            label="First Name"
+                            variant="standard"
+                            name="first-name"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="last-name">Last Name</label>
-                            <input type="text" id="last-name" name="lastName" required onChange={handleChange} />
+                        <TextField
+                            label="Last Name"
+                            variant="standard"
+                            name="lastname"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="father-name">Father's Name</label>
-                            <input type="text" id="father-name" name="fatherName" required onChange={handleChange} />
+                        <TextField
+                            label="Father's Name"
+                            variant="standard"
+                            name="father-name"
+                            value={formData.fatherName}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="mother-name">Mother's Name</label>
-                            <input type="text" id="mother-name" name="motherName" required onChange={handleChange} />
+                        <TextField
+                            label="Mother's Name"
+                            variant="standard"
+                            name="mother-name"
+                            value={formData.motherName}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="dob">Date of Birth</label>
-                            <input type="date" id="dob" name="dob" required onChange={handleChange} />
+                        <TextField
+                            label="Date of Birth"
+                            type="date"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            variant="standard" 
+                            name="dob"
+                            value={formData.dob}
+                            onChange={handleChange}
+                            fullWidth
+                        />
+
                         </div>
                         <div className="form-group">
-                            <label htmlFor="nationality">Nationality</label>
-                            <input type="text" id="nationality" name="nationality" required onChange={handleChange} />
+                        <TextField
+                            label="Nationality"
+                            variant="standard"
+                            name="nationality"
+                            value={formData.nationality}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
 
@@ -107,110 +158,194 @@ const Profile = () => {
 
                 {/* Contact Information */}
                 <fieldset>
-                    <legend>Contact Information</legend>
+                    <legend className="contact">Contact Information</legend>
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="institute-email">Institute's Email Address</label>
-                            <input type="email" id="institute-email" name="instituteEmail" required onChange={handleChange} />
+                        <TextField
+                            label="Institute'e Email"
+                            variant="standard"
+                            name="institute-email"
+                            value={formData.instituteEmail}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="personal-email">Personal Email Address</label>
-                            <input type="email" id="personal-email" name="personalEmail" required onChange={handleChange} />
+                        <TextField
+                            label="{Personal Email}"
+                            variant="standard"
+                            name="personal-email"
+                            value={formData.personalEmail}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" required onChange={handleChange} />
+                        <TextField
+                            label="Mobile Number"
+                            variant="standard"
+                            name="mobile-number"
+                            value={formData.mobileNumber}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="address">Street Address</label>
-                            <input type="text" id="address" name="address" required onChange={handleChange} />
+                        <TextField
+                            label="Street Address"
+                            variant="standard"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="city">City</label>
-                            <input type="text" id="city" name="city" required onChange={handleChange} />
+                        <TextField
+                            label="City"
+                            variant="standard"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="state">State/Province/Region</label>
-                            <input type="text" id="state" name="state" required onChange={handleChange} />
+                        <TextField
+                            label="State"
+                            variant="standard"
+                            name="state"
+                            value={formData.state}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="zip">Postal/Zip Code</label>
-                            <input type="text" id="zip" name="zip" required onChange={handleChange} />
+                        <TextField
+                            label="Postal/Zip Code"
+                            variant="standard"
+                            name="zipcode"
+                            value={formData.zipcode}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="country">Country</label>
-                            <input type="text" id="country" name="country" required onChange={handleChange} />
+                        <TextField
+                            label="Country"
+                            variant="standard"
+                            name="country"
+                            value={formData.country}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
                 </fieldset>
 
                 {/* Enrollment Details */}
                 <fieldset>
-                    <legend>Enrollment Details</legend>
+                    <legend className="enrollment">Enrollment Details</legend>
                     <div className="form-row">
-                        <div className="form-group">
-                            <label htmlFor="program">Program of Study</label>
-                            <select id="program" name="program" onChange={handleChange}>
-                                <option value="engineering">Engineering</option>
-                                {/* Add more options here */}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="grad-year">Expected Graduation Year</label>
-                            <input type="text" id="grad-year" name="gradYear" onChange={handleChange} />
-                        </div>
+                       
+                    <div className="form-group">
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel id="program-label">Program of Study</InputLabel>
+                            <Select
+                                labelId="program-label"
+                                id="program"
+                                name="program"
+                                value={formData.program}
+                                onChange={handleChange}
+                            >
+                            <MenuItem value="B Tech ICT">B Tech ICT</MenuItem>
+                            <MenuItem value="B Tech ICT + CS">B Tech ICT + CS</MenuItem>
+                            <MenuItem value="B Tech EVD">B Tech EVD</MenuItem>
+                            <MenuItem value="B Tech ICT + Minors in Robotics">B Tech ICT + Minors in Robotics</MenuItem>
+                            <MenuItem value="M Tech Machine Learning">M Tech Machine Learning</MenuItem>
+                            <MenuItem value="M Tech VLSI and Embedded Systems">M Tech VLSI and Embedded Systems</MenuItem>
+                            <MenuItem value="M Tech Software Systems">M Tech Software Systems</MenuItem>
+                            <MenuItem value="M Tech Wireless Communication and Signal Processing">
+                                M Tech Wireless Communication and Signal Processing
+                            </MenuItem>
+                            </Select>
+                        </FormControl>
                     </div>
+                    <div className="form-group">
+                        <TextField
+                            label="Expected Graduation Year"
+                            variant="standard"
+                            name="gradYear"
+                            value={formData.gradYear}
+                            onChange={handleChange}
+                            fullWidth
+                        />
+                    </div>
+                </div>
                 </fieldset>
 
                 {/* Previous Education */}
                 <fieldset>
-                    <legend>Previous Education</legend>
+                    <legend className="prev-edu">Previous Education</legend>
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="10th-grade">10th Grade's percentage</label>
-                            <input type="text" id="10th-grade" name="tenthGrade" required onChange={handleChange} />
+                        <TextField
+                            label="10th Grade Percentage"
+                            variant="standard"
+                            name="tenthgrade"
+                            value={formData.tenthGrade}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="12th-grade">12th Grade's percentage</label>
-                            <input type="text" id="12th-grade" name="twelfthGrade" required onChange={handleChange} />
+                        <TextField
+                            label="12th Grade Percentage"
+                            variant="standard"
+                            name="twelfththgrade"
+                            value={formData.twelfthGrade}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="jee-mains">JEE Mains Marks</label>
-                            <input type="text" id="jee-mains" name="jeeMains" onChange={handleChange} />
+                        <TextField
+                            label="JEE Mains Percentile"
+                            variant="standard"
+                            name="jeemains"
+                            value={formData.jeeMains}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="jee-adv">JEE Advanced Marks</label>
-                            <input type="text" id="jee-adv" name="jeeAdv" onChange={handleChange} />
+                        <TextField
+                            label="JEE Advanced Rank"
+                            variant="standard"
+                            name="jeeadv"
+                            value={formData.jee}
+                            onChange={handleChange}
+                            fullWidth/>
                         </div>
                     </div>
                 </fieldset>
 
                 {/* Additional Information */}
                 <fieldset>
-                    <legend>Additional Information</legend>
+                    <legend className="additional">Additional Information</legend>
                     <div className="form-group">
-                        <label htmlFor="disabilities">Disabilities or Special Needs</label>
-                        <textarea id="disabilities" name="disabilities" onChange={handleChange}></textarea>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="photo-upload">Passport-sized Photo Upload</label>
-                        <input type="file" id="photo-upload" name="photo" accept="image/*" onChange={handleChange} />
+                    <TextField
+                            label="Disabilities"
+                            variant="standard"
+                            name="disabilities"
+                            value={formData.disabilities}
+                            onChange={handleChange}
+                            fullWidth/>
                     </div>
                 </fieldset>
 
-                <button type="submit">Submit</button>
+                <button className="submit-button" type="submit">Submit</button>
             </form>
         </div>
     );

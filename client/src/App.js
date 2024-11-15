@@ -19,9 +19,19 @@ import CourseRegistration from './Pages/CourseRegistration';
 import FeesPayment from './Pages/FeePays';
 import Scholarship from './Pages/Scholarship';
 import Profile from './Pages/Profile'
-import UserProvider from "./context/context";
+import { useNavigate } from 'react-router-dom';
+import AdminDashboard from './Pages/adminDash';
+import Result from './Pages/Result'
+
+
 
 function Layout() {
+  const navigate = useNavigate();
+
+    const handleAvatarClick = () => {
+        navigate('/Profile'); // Navigate to the profile page
+    };
+
   	return (
 		<Grid container>
 			<Grid item md={3} xs={3} sm={2}>
@@ -49,7 +59,8 @@ function Layout() {
 						fontSize="large"
 						sx={{ marginRight: "30px", marginTop: "5px" }}
 					></NotificationsNoneIcon>
-					<Avatar alt="User image" src="./favicon.ico" />
+					<Avatar alt="User image" src="./favicon.ico"onClick={handleAvatarClick} 
+                        style={{ cursor: "pointer" }}/>
 				</Box>
 			</Grid>
 		</Grid>
@@ -66,7 +77,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Dashboard />,
+        element: <login />,
       },
       {
         path: '/dashboard',
@@ -104,16 +115,20 @@ const router = createBrowserRouter([
         path: '/Profile',
         element: <Profile />
       },
-
+      {
+        path: '/Result',
+        element: <Result />
+      },
+      {
+        path: '/adminDashboard',
+        element: <AdminDashboard />
+      }
     ],
   },
 ]);
 
 
 function App() {
-
-	
-
 	return (
 		<>
     
