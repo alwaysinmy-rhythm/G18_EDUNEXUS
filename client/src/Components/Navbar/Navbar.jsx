@@ -20,9 +20,11 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Paper } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Logout } from '@mui/icons-material';
 
 const drawerWidth = 260;
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -91,6 +93,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Navbar() {
   const [open, setOpen] = React.useState(window.screen.width < '900' ? false : true);
   const isAbove900px = useMediaQuery('(max-width:900px)');
+
+  const navigate = useNavigate();
+
+const handleLogout = () =>{
+  localStorage.removeItem("userInfo");
+  localStorage.removeItem("_grecaptcha");
+
+  navigate('/login');
+
+}
 
   const handleDrawer = () => {
     setOpen((prev) => !prev);
@@ -216,6 +228,7 @@ export default function Navbar() {
               </ListItem>
             ))}
           </List>
+          <Logout onClick={handleLogout}></Logout>
           <img src="../Images/student.png" alt="Student" />
         </Drawer>
       </Paper>

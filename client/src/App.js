@@ -18,11 +18,9 @@ import Courses from "./Components/MyCourse/Courses";
 import CourseRegistration from './Pages/CourseRegistration';
 import FeesPayment from './Pages/FeePays';
 import Scholarship from './Pages/Scholarship';
-import Profile from './Pages/Profile';
-import { useNavigate } from 'react-router-dom'
-
-
-
+import Profile from './Pages/Profile'
+import { useNavigate } from 'react-router-dom';
+import AdminDashboard from './Pages/adminDash';
 import Result from './Pages/Result'
 
 
@@ -79,7 +77,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Dashboard />,
+        element: <login />,
       },
       {
         path: '/dashboard',
@@ -118,8 +116,13 @@ const router = createBrowserRouter([
         element: <Profile />
       },
       {
+<<<<<<< HEAD
         path: '/Result',
         element: <Result />
+=======
+        path: '/adminDashboard',
+        element: <AdminDashboard />
+>>>>>>> fc8a6885c062be5b67ebcf6a3c6de6ce81f18129
       }
 
     ],
@@ -133,10 +136,12 @@ function App() {
 
 	return (
 		<>
+    
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<RouterProvider router={router}></RouterProvider>
 			</ThemeProvider>
+     
 		</>
 	);
 }

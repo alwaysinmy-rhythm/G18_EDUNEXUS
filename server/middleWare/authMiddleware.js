@@ -3,16 +3,17 @@ const jwt = require("jsonwebtoken");
 
 const protect = async (req, res, next) => {
   
+  console.log(req.body);
   console.log("reach at protect");
 
-  let token;
+  let token; 
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
-  ) {
+  ) { 
     try {
       token = req.headers.authorization.split(" ")[1];
-
+      console.log(token); 
       const decoded = jwt.verify(token, "hello");
       console.log(decoded);
 
@@ -28,7 +29,7 @@ const protect = async (req, res, next) => {
 
       else {
         res.status(401).json({ mesasge: "Not Authorized, token failed" });
-        // console.log(req.user.email);
+        console.log(token);
         // console.log(decoded.email);
       return;
 
