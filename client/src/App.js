@@ -18,8 +18,12 @@ import Courses from "./Components/MyCourse/Courses";
 import CourseRegistration from './Pages/CourseRegistration';
 import FeesPayment from './Pages/FeePays';
 import Scholarship from './Pages/Scholarship';
-import Profile from './Pages/Profile'
-import { useNavigate } from 'react-router-dom';
+import Profile from './Pages/Profile';
+import { useNavigate } from 'react-router-dom'
+
+
+
+import Result from './Pages/Result'
 
 
 
@@ -112,6 +116,10 @@ const router = createBrowserRouter([
       {
         path: '/Profile',
         element: <Profile />
+      },
+      {
+        path: '/Result',
+        element: <Result />
       }
 
     ],
