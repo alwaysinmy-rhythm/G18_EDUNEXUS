@@ -21,6 +21,9 @@ import Scholarship from './Pages/Scholarship';
 import Profile from './Pages/Profile'
 import { useNavigate } from 'react-router-dom';
 import AdminDashboard from './Pages/adminDash';
+import Result from './Pages/Result'
+
+
 
 
 function Layout() {
@@ -112,6 +115,10 @@ const router = createBrowserRouter([
       {
         path: '/Profile',
         element: <Profile />
+      },
+      {
+        path: '/Result',
+        element: <Result />
       },
       {
         path: '/adminDashboard',

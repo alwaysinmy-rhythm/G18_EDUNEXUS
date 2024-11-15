@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import '../CSS/Profile.css';
-import logo from '../Images/logo.png';
+import logo from '../Images/profile_logo.png';
 import TextField from '@mui/material/TextField';
-// import MenuItem from '@mui/material/MenuItem';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 
