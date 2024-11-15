@@ -1,0 +1,127 @@
+/* Container styles */
+.admin-dashboard {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .admin-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Semester selection */
+  .semester-selection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .semester-selection label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .semester-selection select {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Start registration button */
+  .registration-actions {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .btn-start-registration {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-start-registration:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .btn-start-registration:hover:not(:disabled) {
+    background-color: #218838;
+  }
+  
+  /* Student data table */
+  .student-data-section {
+    margin-top: 20px;
+  }
+  
+  .student-data-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+  
+  .student-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .student-data-table th,
+  .student-data-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .student-data-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .student-data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Approve registration button */
+  .btn-approve-registration {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-approve-registration:hover {
+    background-color: #0056b3;
+  }
+  
+  .student-data-table ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .student-data-table li {
+    padding: 2px 0;
+  }
+  
+  /* Loading state */
+  .loading-message {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+  }

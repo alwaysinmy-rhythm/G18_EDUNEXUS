@@ -26,4 +26,4 @@
 /server/node_modules
 
 # Environment Variables
-# /server/.env
+/server/.env

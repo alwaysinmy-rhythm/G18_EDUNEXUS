@@ -20,7 +20,7 @@ import FeesPayment from './Pages/FeePays';
 import Scholarship from './Pages/Scholarship';
 import Profile from './Pages/Profile'
 import { useNavigate } from 'react-router-dom';
-
+import AdminDashboard from './Pages/adminDash';
 
 
 function Layout() {
@@ -75,7 +75,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Dashboard />,
+        element: <login />,
       },
       {
         path: '/dashboard',
@@ -112,6 +112,10 @@ const router = createBrowserRouter([
       {
         path: '/Profile',
         element: <Profile />
+      },
+      {
+        path: '/adminDashboard',
+        element: <AdminDashboard />
       }
 
     ],
@@ -125,10 +129,12 @@ function App() {
 
 	return (
 		<>
+    
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<RouterProvider router={router}></RouterProvider>
 			</ThemeProvider>
+     
 		</>
 	);
 }
