@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import Cookies from 'js-cookie';
-import Coursedata from '../Components/Helper/Coursedata'; // Importing course data
+import Coursedata from '../Components/Helper/Coursedata.json'; // Importing course data
 import '../CSS/CR.css';
+import AutoStoriesRoundedIcon from '@mui/icons-material/AutoStoriesRounded';
 
 const ENDPOINT="http://localhost:3001";
 const CourseCard = ({ course, onClick, isSelected }) => (
   <div className={`course-card ${isSelected ? 'selected' : ''}`} onClick={() => onClick(course)}>
-    <div className="course-image-container">
-      <img src={course.image} alt={course.title} className="course-image" />
+    <div className="course-icon-container">
+      <AutoStoriesRoundedIcon className="course-icon" fontSize="large" />
       {isSelected && <div className="selected-overlay">Selected</div>}
     </div>
     <h2>{course.title}</h2>
@@ -23,24 +23,18 @@ const CourseModal = ({ course, onClose }) => (
       <h2>{course.title}</h2>
       <p>{course.description}</p>
       <div className="course-info">
-        <span>Duration: {course.duration}</span>
-        <span>Date: {course.date}</span>
+        <span>Course ID: {course.course_code}</span>
+        <span>Semester: {course.semester}</span>
+        <span>Year: {course.year}</span>
+        <span>Credit: {course.credit}</span>
+        <span>Professor: {course.professor}</span>
       </div>
-      <div className="course-rating">
-        {Array.from({ length: 5 }, (_, index) => (
-          <span key={index} className={index < course.rating ? 'star filled' : 'star'}>★</span>
-        ))}
-      </div>
-      <div className="course-price">{course.price === "Free" ? "Free" : `$${course.price}`}</div>
     </div>
   </>
 );
 
 const CourseRegistration = () => {
-
-
-
-  const [selectedCourse, setSelectedCourse] = useState(['', '', '', '', '', '']);
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const [studentCourses, setStudentCourses] = useState([]);
   const [formData, setFormData] = useState({
     name: 'Aryan Solanki',
@@ -55,7 +49,7 @@ const CourseRegistration = () => {
       const fetchStudentInfo = async () => {
         try {
           const response = await axios.get(`${ENDPOINT}/api/user/course_registration?sid=${sid}`);
-          // console.log(response.data);
+          //console.log(response.data);
           const { studentInfo, courses } = response.data;
           setFormData(studentInfo);
           setStudentCourses(courses);
@@ -72,6 +66,18 @@ const CourseRegistration = () => {
     }
   }, []);
 
+  const handleCourseClick = (course) => setSelectedCourse(course);
+  const handleModalClose = () => setSelectedCourse(null);
+
+  const handleCourseSelection = (index, courseId) => {
+    const newCourses = [...studentCourses];
+    newCourses[index] = courseId;
+    setStudentCourses(newCourses);
+  };
+
+  const handleReset = () => {
+    setStudentCourses(['', '', '', '', '', '']);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,20 +108,6 @@ const CourseRegistration = () => {
         alert('Failed to register courses. Please try again.');
       }
     }
-  };
-   
-
-  const handleCourseClick = (course) => setSelectedCourse(course);
-  const handleModalClose = () => setSelectedCourse(null);
-
-  const handleCourseSelection = (index, courseId) => {
-    const newCourses = [...studentCourses];
-    newCourses[index] = courseId;
-    setStudentCourses(newCourses);
-  };
-
-  const handleReset = () => {
-    setStudentCourses(['', '', '', '', '', '']);
   };
 
   // const handleSubmit = (e) => {
@@ -149,7 +141,7 @@ const CourseRegistration = () => {
       <div className="courses-grid">
         {Coursedata.map((course) => (
           <CourseCard
-            key={course.cid}
+            key={course.CID}
             course={course}
             onClick={handleCourseClick}
             isSelected={studentCourses.includes(course.CID)}
@@ -159,7 +151,7 @@ const CourseRegistration = () => {
 
       <form className="course-selection-form" onSubmit={handleSubmit}>
         <div className="form-grid">
-          {[...Array(6)].map((_, index) => (
+          {[...Array(5)].map((_, index) => (
             <div key={index} className="form-group">
               <label htmlFor={`course${index + 1}`}>Course {index + 1}</label>
               <select
@@ -183,9 +175,16 @@ const CourseRegistration = () => {
         </div>
         
         <div className="form-actions">
-          <button type="submit" className="btn-submit">Submit Registration</button>
+          <button 
+            type="submit" 
+            className="btn-submit"
+            disabled={studentCourses.includes('')}
+          >
+            Submit Registration
+          </button>
           <button type="button" className="btn-reset" onClick={handleReset}>Reset Selection</button>
         </div>
+
       </form>
 
       {selectedCourse && (

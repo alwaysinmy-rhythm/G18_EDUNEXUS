@@ -25,7 +25,6 @@ import Result from './Pages/Result'
 
 
 
-
 function Layout() {
   const navigate = useNavigate();
 
@@ -124,16 +123,12 @@ const router = createBrowserRouter([
         path: '/adminDashboard',
         element: <AdminDashboard />
       }
-
     ],
   },
 ]);
 
 
 function App() {
-
-	
-
 	return (
 		<>
     
