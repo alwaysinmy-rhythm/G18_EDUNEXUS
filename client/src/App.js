@@ -21,7 +21,6 @@ import Scholarship from './Pages/Scholarship';
 import Profile from './Pages/Profile'
 import UserProvider from "./context/context";
 
-
 function Layout() {
   	return (
 		<Grid container>
@@ -104,7 +103,7 @@ const router = createBrowserRouter([
       {
         path: '/Profile',
         element: <Profile />
-      }
+      },
 
     ],
   },
