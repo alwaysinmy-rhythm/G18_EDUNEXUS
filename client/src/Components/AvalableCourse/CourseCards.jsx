@@ -24,6 +24,19 @@ const style = {
   p: 4,
 };
 
+// {
+//   "cid": 1,
+//   "course_code": "CS101",
+//   "year": "2024",
+//   "semester": "Autumn",
+//   "enrolled_cnt": 60,
+//   "prof_id": "P001",
+//   "credit": 4,
+//   "course_description": "Introduction to Computer Science covering basic programming and problem-solving techniques.",
+//   "course_name": "Computer Science Basics",
+//   "offered_semester": 5
+// },
+
 function CourseCards(course) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -52,7 +65,7 @@ function CourseCards(course) {
           <br></br>
           Professor : {course.Prof} 
           <br></br>
-          Credits : {course.Credits}        
+          Credits : {course.credit}        
         </Typography>
         <Button onClick={handleOpen}>
           View Info
