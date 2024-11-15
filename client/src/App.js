@@ -25,6 +25,7 @@ import Result from './Pages/Result'
 
 
 
+
 function Layout() {
   const navigate = useNavigate();
 
@@ -116,13 +117,12 @@ const router = createBrowserRouter([
         element: <Profile />
       },
       {
-<<<<<<< HEAD
         path: '/Result',
         element: <Result />
-=======
+      },
+      {
         path: '/adminDashboard',
         element: <AdminDashboard />
->>>>>>> fc8a6885c062be5b67ebcf6a3c6de6ce81f18129
       }
 
     ],
