@@ -11,9 +11,10 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
 
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: true, 
+  // connectionString: process.env.DATABASE_URL,
+  // ssl: true, 
 });
+
 
 pool
   .connect()
