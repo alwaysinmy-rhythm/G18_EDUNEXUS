@@ -72,50 +72,90 @@ const getMessages = async (req, res) => {
 };
 
 
-const getCurrentSemester = () => {
-    const today = new Date();
-    const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth() + 1;
-  
-    let semester = 'Autumn';
-    let year = currentYear;
-  
-    if (currentMonth >= 1 && currentMonth <= 7) {
-      semester = 'Winter';
-    }
-    if (semester === 'Autumn' && currentMonth >= 8) {
-      year = currentYear;
-    }
-  
-    return { semester, year };
-  };
 
-const courseList = async (req, res) => {
-    const sid  = req.body.SID;
+
+  const courseList = async (req, res) => {
+    const sid = req.body.SID;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed (Jan = 0)
+
+    // Determine the current semester based on the month
+    let semester = '';
+    if (currentMonth >= 1 && currentMonth <= 5) {
+        semester = 'Winter';  // Winter semester (Jan - Mar)
+    } else if (currentMonth >= 7 && currentMonth <= 12) {
+        semester = 'Autumn';  // Autumn semester (Oct - Dec)
+    } else {
+        return res.status(400).json({ message: 'Current month does not correspond to Winter or Autumn semester.' });
+    }
 
     try {
         const result = await pool.query(
-            `SELECT c.Course_code, c.year, c.semester, c.credit, p.prof_name 
+            `SELECT c.Course_code, c.year, c.semester, c.credit, p.prof_name
             FROM Course_enrolled_list cel
             JOIN Course c ON cel.CID = c.CID
             JOIN Professors p ON c.prof_id = p.prof_id
-            WHERE cel.SID = $1`, [sid]
+            WHERE cel.SID = $1
+            AND c.year = $2
+            AND c.semester = $3`, 
+            [sid, currentYear, semester]
         );
-        // console.log(result.rows[0]);
+
         if (result.rows.length === 0) {
-            return res.status(404).json({ message: 'No courses found for the given SID.' });
+            return res.status(404).json({ message: 'No courses found for the given SID this semester.' });
         }
 
-        // Return the list of courses for the student
+        // Return the list of courses for the student in the current semester
         return res.json(result.rows);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Database error occurred' });
     }
-  };
+};
+
+const professorCourseList = async (req, res) => {
+    const profId = req.body.SID;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+
+    // Determine the current semester based on the month
+    let semester = '';
+    if (currentMonth >= 1 && currentMonth <= 5) {
+        semester = 'Winter';  // Winter semester (Jan - Mar)
+    } else if (currentMonth >= 7 && currentMonth <= 12) {
+        semester = 'Autumn';  // Autumn semester (Oct - Dec)
+    } else {
+        return res.status(400).json({ message: 'Current month does not correspond to Winter or Autumn semester.' });
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT c.Course_code, c.year, c.semester, c.credit, p.prof_name
+            FROM Course c
+            JOIN Professors p ON c.prof_id = p.prof_id
+            WHERE c.prof_id = $1
+            AND c.year = $2
+            AND c.semester = $3`, 
+            [profId, currentYear, semester]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'No courses found for the given professor this semester.' });
+        }
+
+        // Return the list of courses taught by the professor in the current semester
+        return res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Database error occurred' });
+    }
+};
+
+
 
 module.exports = {
     sendMessage,
     getMessages,
-    courseList
+    courseList,
+    professorCourseList
 };
