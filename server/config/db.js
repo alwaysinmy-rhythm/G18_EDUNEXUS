@@ -11,7 +11,7 @@ const pool = new Pool({
   // port: process.env.DB_PORT,
   
 
-    connectionString: process.env.DB_URL + "?sslmode=require",
+    connectionString: process.env.DATABASE_URL + "?sslmode=require",
     ssl: {
       rejectUnauthorized: require  // This allows the connection without certificate validation
     }
