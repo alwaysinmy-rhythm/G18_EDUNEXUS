@@ -3,7 +3,7 @@ const protect=require("../middleWare/authMiddleware");
 const {authUser,viewProfile,editProfile,authRole} = require("../controller/authUser");
 const {dashboard} = require("../controller/dashboard");
 const {mycourses} = require("../controller/mycourses");
-
+const {courseNotes} = require("../controller/courseNotes");
 const {lab_assignment,lab_submission,listlabs,listsubmissions} = require("../controller/lab_assignment");
 const {courseNotes}=require("../controller/courseNotes")
 const {getCourseRegistrationList,registerStudentPreferences} = require("../controller/course_registration");

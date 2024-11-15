@@ -87,7 +87,7 @@ const CourseRegistration = () => {
     
     if (confirmation) {
       try {
-        const response = await axios.post(`${ENDPOINT}/api/user/course-registration`, {
+        const response = await axios.post(`${ENDPOINT}/api/user/course_registration`, {
           studentId: formData.id,
           name: formData.name,
           semester: formData.semester,

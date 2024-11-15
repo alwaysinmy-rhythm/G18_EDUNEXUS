@@ -52,6 +52,7 @@ async function registerStudentPreferences(req, res) {
 
 async function getCourseRegistrationList(req, res) {
     const sid = req.query.sid;
+    console.log(sid);
   try {
     // Fetch student information
     const studentQuery = `
@@ -75,8 +76,12 @@ async function getCourseRegistrationList(req, res) {
     `;
     const coursesResult = await pool.query(coursesQuery, [currentSemester]);
     const courses = coursesResult.rows;
-    const allocationStatus = year === allocationBatch ? true : false;
-    res.status(200).send({ studentInfo, courses,  });
+    // console.log(allocationBatch);
+    let allocationStatus = true;
+    if( allocationBatch == null || allocationBatch !== currentSemester){
+        allocationStatus = false;
+    }
+    res.status(200).send({ studentInfo,courses,allocationStatus });
   } catch (error) {
     res.status(500).send({ error: 'An error occurred while fetching course registration list' });
   }
