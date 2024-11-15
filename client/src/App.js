@@ -18,11 +18,18 @@ import Courses from "./Components/MyCourse/Courses";
 import CourseRegistration from './Pages/CourseRegistration';
 import FeesPayment from './Pages/FeePays';
 import Scholarship from './Pages/Scholarship';
-import Profile from './Pages/Profile';
+import Profile from './Pages/Profile'
+import { useNavigate } from 'react-router-dom';
 import AdminDashboard from './Pages/adminDash';
 
 
 function Layout() {
+  const navigate = useNavigate();
+
+    const handleAvatarClick = () => {
+        navigate('/Profile'); // Navigate to the profile page
+    };
+
   	return (
 		<Grid container>
 			<Grid item md={3} xs={3} sm={2}>
@@ -50,7 +57,8 @@ function Layout() {
 						fontSize="large"
 						sx={{ marginRight: "30px", marginTop: "5px" }}
 					></NotificationsNoneIcon>
-					<Avatar alt="User image" src="./favicon.ico" />
+					<Avatar alt="User image" src="./favicon.ico"onClick={handleAvatarClick} 
+                        style={{ cursor: "pointer" }}/>
 				</Box>
 			</Grid>
 		</Grid>

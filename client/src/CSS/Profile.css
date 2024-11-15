@@ -1,10 +1,10 @@
 .container {
     max-width: 900px;
     margin: 20px auto;
-    background-color: #5786bf;
+    background-color: #4cade5;
     padding: 20px;
     border-radius: 8px;
-    color: #ffffff;
+    color: #fcfbfb;
 }
 
 .header {
@@ -18,7 +18,7 @@
     border-radius: 8px;
 }
 
-form {
+.profile {
     margin-top: 20px;
 }
 
@@ -32,7 +32,7 @@ fieldset {
     margin-bottom: 20px;
 }
 
-legend {
+.personal, .contact, .enrollment, .prev-edu {
     font-size: 1.2em;
     margin-bottom: 10px;
 }
@@ -55,23 +55,11 @@ label {
     margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="date"],
-select,
-textarea,
-input[type="file"] {
+TextField[type="fill"] {
     padding: 8px;
     border-radius: 5px;
-    border: 1px solid #ccc;
     font-size: 0.9em;
     width: 100%;
-}
-
-textarea {
-    resize: none;
-    height: 60px;
 }
 
 .radio-button-group {
@@ -79,7 +67,7 @@ textarea {
     gap: 10px;
 }
 
-button {
+.submit-button {
     padding: 10px 15px;
     font-size: 1em;
     color: white;
@@ -90,6 +78,6 @@ button {
     /* width: 100%; */
 }
 
-button:hover {
+.submit-button:hover {
     background-color: #45a049;
 }
