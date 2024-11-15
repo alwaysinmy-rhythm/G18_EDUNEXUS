@@ -1,5 +1,6 @@
 const pool = require("../config/db");
 const generateToken = require("../config/generateToken");
+const { z } = require('zod');
 
 const authUser = async (req, res) => {
   console.log("Login attempt received");
@@ -96,6 +97,7 @@ const authRole = async (req, res) => {
 
 const viewProfile = async (req, res) => {
   try {
+    console.log(req.body)
 
     const studentSID = req.body.SID; 
     const personalResult = await pool.query(`SELECT * FROM Student_Personal WHERE SID = $1`, [studentSID]);
@@ -114,28 +116,24 @@ const viewProfile = async (req, res) => {
     const studentAcademic = academicResult.rows[0];
 
     const profile = {
-      personal_info: {
-        SID: studentPersonal.sid,
-        Sname: studentPersonal.sname,
-        Fname: studentPersonal.fname,
-        Mname: studentPersonal.mname,
-        Bdate: studentPersonal.bdate,
-        Addr_street: studentPersonal.addr_street,
-        Addr_city: studentPersonal.addr_city,
-        Addr_state: studentPersonal.addr_state,
-        Emergency_no: studentPersonal.emergency_no,
-        EmailId: studentPersonal.emailid,
-        gender: studentPersonal.gender,
-      },
-      academic_info: {
-        year: studentAcademic.year,
-        program: studentAcademic.program,
-        department: studentAcademic.department,
-        branch: studentAcademic.branch,
-        CPI: studentAcademic.cpi,
-        admission_rank: studentAcademic.admission_rank,
-        admission_through: studentAcademic.admission_through,
-      }
+      SID: studentPersonal.sid,
+      Sname: studentPersonal.sname,
+      Fname: studentPersonal.fname,
+      Mname: studentPersonal.mname,
+      Bdate: studentPersonal.bdate,
+      nationality: studentPersonal.nationality,
+      gender: studentPersonal.gender,
+      EmailId: studentPersonal.emailid,
+      acadEmailID: studentAcademic.emailid,
+      Emergency_no: studentPersonal.emergency_no,
+      Addr_street: studentPersonal.addr_street,
+      Addr_city: studentPersonal.addr_city,
+      Addr_state: studentPersonal.addr_state,
+      zipcode: studentPersonal.zipcode,
+      program: studentAcademic.program,
+      year: studentAcademic.year,
+      admission_through: studentAcademic.admission_through,
+      admission_rank: studentAcademic.admission_rank,
     };
 
     return res.status(200).json(profile);
