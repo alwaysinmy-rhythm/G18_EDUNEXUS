@@ -8,8 +8,11 @@ const {getCourseRegistrationList,registerStudentPreferences} = require("../contr
 const router = express.Router();
 router.route('/login').post(authUser);
 router.route('/authRole').post(protect,authRole);
-router.route('/viewprofile').get(protect,viewProfile);
-router.route('/editprofile').post(protect,editProfile);
+
+router.route('/viewprofile').get(viewProfile);
+router.route('/editprofile').post(editProfile);
+router.route('/dashboard/mycourses/notes').get(courseNotes);
+
 
 
 
