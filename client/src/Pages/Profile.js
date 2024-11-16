@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/Profile.css';
+// import '../CSS/Profile.css';
 import logo from '../Images/profile_logo.png';
 import TextField from '@mui/material/TextField';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
