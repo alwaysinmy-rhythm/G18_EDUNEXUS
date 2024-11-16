@@ -1,3 +1,4 @@
+/* General container and layout styling */
 .course-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -12,8 +13,10 @@
   font-size: 2.5rem;
   color: black;
   margin-bottom: 1.5rem;
+  text-align: left;
 }
 
+/* Student Information Section */
 .student-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -42,6 +45,7 @@
   font-weight: 600;
 }
 
+/* Courses Grid */
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -49,12 +53,14 @@
   margin-bottom: 2rem;
 }
 
+/* Course Card */
 .course-card {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
 .course-card:hover {
@@ -88,7 +94,7 @@
   background: #4caf50;
   color: white;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 0.8rem;
 }
 
@@ -100,6 +106,19 @@
   text-align: center;
 }
 
+.course-card .course-details {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.course-card .course-details span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Course Selection Form */
 .course-selection-form {
   background: white;
   padding: 2rem;
@@ -112,8 +131,6 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
-  overflow: hidden;
-  padding: 1rem;
 }
 
 .form-group {
@@ -149,6 +166,7 @@
   background: #f0f0f0;
 }
 
+/* Form Actions */
 .form-actions {
   display: flex;
   gap: 1rem;
@@ -183,6 +201,7 @@
   background: #283593;
 }
 
+/* Course Modal */
 .course-modal {
   position: fixed;
   top: 50%;
@@ -194,6 +213,7 @@
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 .course-modal-overlay {
@@ -204,6 +224,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
+  z-index: 5;
 }
 
 .course-modal-close {
@@ -226,25 +247,6 @@
   display: flex;
   gap: 1rem;
   margin: 1rem 0;
-}
-
-.course-rating {
-  margin: 1rem 0;
-}
-
-.star {
-  color: #ffd700;
-  font-size: 1.2rem;
-}
-
-.star:not(.filled) {
-  color: #ddd;
-}
-
-.course-price {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #4caf50;
 }
 
 /* Responsive Media Queries */
@@ -286,9 +288,8 @@
   }
 
   .course-modal {
-    width: 70%;
+    width: 90%;
     padding: 1.5rem;
-    z-index: 1;
   }
 
   .course-modal h2 {

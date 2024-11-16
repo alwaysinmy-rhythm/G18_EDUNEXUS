@@ -10,12 +10,11 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
-
-  // connectionString: process.env.DATABASE_URL,
-  // ssl: true, 
-});
-
-
+    connectionString: process.env.DATABASE_URL + "?sslmode=require",
+    ssl: {
+      rejectUnauthorized: require  // This allows the connection without certificate validation
+    }
+  });
 pool
   .connect()
   .then(() => console.log("Connected to PostgreSQL"))
