@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Paper, Typography, Box } from '@mui/material';
-import NoticeContent from '../Helper/notice.json'; 
 import '../../CSS/DashNotice.css'
 
 const colorPalette = [
@@ -29,41 +28,48 @@ function getRandomColor() {
   return colorPalette[randomIndex];
 }
 
-function DashNotice() {
+function DashNotice({noticeTitle}) {
+  // useEffect(() => {
+  //   console.log('Notice data:', noticeTitle);
+  // }, [noticeTitle]);
   return (  // Corrected: Added the return statement
     <>
       <h3 className='noticeHead'>Notice Board</h3>
-      <Box 
+      <Box
         sx={{
           padding: '2px',
           maxHeight: '150px',
-          overflowY: 'auto', 
+          overflowY: 'auto',
           scrollbarWidth: 'thin',
         }}
       >
-        {NoticeContent.map(item => {
-          const randomColor = getRandomColor();
+        {noticeTitle && noticeTitle.length > 0 ? (
+          noticeTitle.map(({lab_id, title, due_time}) => {
+            const randomColor = getRandomColor();
 
-          return (
-            <Paper
-              key={item.id} 
-              sx={{
-                paddingLeft: '10px', 
-                margin: '10px', 
-                borderBottom: `5px solid ${randomColor}`,
-                borderBottomLeftRadius: '20px',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                '&:hover': {
-                  transform: 'scale(1.05)',  // Slightly scale up on hover
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',  // Add shadow on hover
-                },
-              }}
-            >
-              <Typography variant="h6">{item.title}</Typography>
-              <Typography variant="body1">{item.content}</Typography>
-            </Paper>
-          );
-        })}
+            return (
+              <Paper
+                key={lab_id} // Use lab_id as a unique key
+                sx={{
+                  paddingLeft: '10px',
+                  margin: '10px',
+                  borderBottom: `5px solid ${randomColor}`,
+                  borderBottomLeftRadius: '20px',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  '&:hover': {
+                    transform: 'scale(1.05)', // Slightly scale up on hover
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)', // Add shadow on hover
+                  },
+                }}
+              >
+                <Typography variant="h6">Due: {title}</Typography>
+                <Typography variant="body1">Left Time: {due_time}</Typography>
+              </Paper>
+            );
+          })
+        ) : (
+          <Typography variant="body1">No notices available</Typography>
+        )}
       </Box>
     </>
   );

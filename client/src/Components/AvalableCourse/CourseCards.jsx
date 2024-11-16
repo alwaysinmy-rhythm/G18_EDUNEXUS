@@ -54,13 +54,13 @@ function CourseCards(course) {
           height: '350px',
           cursor: 'pointer',
           textAlign:'left',
-          border:'2px solid blue',
+          // border:'2px solid blue',
           overflow:'hidden',
         }}
       >
         <img src={course.image} alt={course.title} style={imgeCss}/>
         
-        <Typography sx={{border:'2px solid red'}}>
+        <Typography >
           {course.title}
           <br></br>
           Professor : {course.Prof} 

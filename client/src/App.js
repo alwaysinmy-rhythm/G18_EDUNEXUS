@@ -40,15 +40,14 @@ function Layout() {
 
 			<Grid item md={8} xs={7} sm={8} sx={{ position: "relative" }} >
 				
-				<Chat></Chat>
 				
 
 				<Outlet />
 			</Grid>
-			<Grid md={1} xs={2} sm={2} sx={{ position: "relative" }} >
+			<Grid item md={1} xs={2} sm={2} sx={{ position: "relative" }} >
 			<Box
 					sx={{
-						position: "absolute",
+						position: "fixed",
 						top: 0,
 						right: 0,
 						padding: "16px",
@@ -57,10 +56,12 @@ function Layout() {
 				>
 					<NotificationsNoneIcon
 						fontSize="large"
-						sx={{ marginRight: "30px", marginTop: "5px" }}
+						sx={{ marginRight: "30px", marginTop: "5px"}}
 					></NotificationsNoneIcon>
 					<Avatar alt="User image" src="./favicon.ico"onClick={handleAvatarClick} 
                         style={{ cursor: "pointer" }}/>
+					<Chat></Chat>
+
 				</Box>
 			</Grid>
 		</Grid>
@@ -69,16 +70,18 @@ function Layout() {
 
 const router = createBrowserRouter([
   {
-    path: '/login',
+    path: '/Login',
+    element: <Login />,
+  },
+
+  {
+    path: '/',
     element: <Login />,
   },
   {
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <login />,
-      },
+      
       {
         path: '/dashboard',
         element: <Dashboard />,
@@ -88,15 +91,15 @@ const router = createBrowserRouter([
         element: <Sample />,
       },
       {
-        path: 'ProfDashboard',
+        path: '/ProfDashboard',
         element: <ProfDashboard />,
       },
       {
-        path: 'AllCourse',
+        path: '/AvailableCourses',
         element: <AllCourse />,
       },
 	    {
-		    path: "/courses",
+		    path: "/Mycourses",
 		    element: <Courses />
 	    },
       {

@@ -7,8 +7,6 @@ const {professor_dashboard} = require("../controller/Professor_Dashboard");
 const {professor_mycourses,listenrolled_students} = require("../controller/Professor_mycourses");
 const {courseNotes} = require("../controller/courseNotes");
 const {lab_assignment,lab_submission,listlabs,listsubmissions} = require("../controller/lab_assignment");
-
-const {courseNotes}=require("../controller/courseNotes")
 const {getCourseRegistrationList,registerStudentPreferences} = require("../controller/course_registration");
 
 const router = express.Router();
@@ -22,8 +20,10 @@ router.route('/editprofile').post(editProfile);
 router.route('/dashboard/mycourses/notes').get(courseNotes);
 
 
-// student dashboard routes
-router.route('/dashboard').get(protect,dashboard);
+
+
+
+router.route('/dashboard').get(dashboard);
 router.route('/dashboard/mycourses').get(mycourses);
 
 // professor dashboard routes

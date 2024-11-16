@@ -11,7 +11,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ChatIcon from '@mui/icons-material/Chat';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SchoolIcon from '@mui/icons-material/School';
 import ReportIcon from '@mui/icons-material/Assessment';
@@ -19,6 +18,7 @@ import CourseRegIcon from '@mui/icons-material/EditNote';
 import PaymentIcon from '@mui/icons-material/Payment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Paper } from '@mui/material';
+import CourseIcon from '@mui/icons-material/AutoStories';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logout } from '@mui/icons-material';
@@ -122,7 +122,7 @@ const handleLogout = () =>{
           </DrawerHeader>
           <Divider />
           <List>
-            {['Dashboard', 'Courses', 'Result', 'Chat'].map((text, index) => (
+            {['Dashboard', 'AvailableCourses', 'Result','Mycourses'].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                 <Link to={`/${text.toLowerCase()}`} style={{ textDecoration: 'none' }}>
                   <ListItemButton
@@ -130,6 +130,8 @@ const handleLogout = () =>{
                       {
                         minHeight: 48,
                         px: 2.5,
+                        color:'blue'
+
                       },
                       open ? { justifyContent: 'initial' } : { justifyContent: 'center' },
                     ]}
@@ -152,7 +154,7 @@ const handleLogout = () =>{
                       {index === 0 && <DashboardIcon />}
                       {index === 1 && <SchoolIcon />}
                       {index === 2 && <ReportIcon />}
-                      {index === 3 && <ChatIcon />}
+                      {index === 3 && <CourseIcon/>}
                     </ListItemIcon>
                     <ListItemText
                       primary={text}
@@ -182,6 +184,8 @@ const handleLogout = () =>{
                     {
                       minHeight: 48,
                       px: 2.5,
+                      color:'blue'
+
                     },
                     open
                       ? {
@@ -228,8 +232,63 @@ const handleLogout = () =>{
               </ListItem>
             ))}
           </List>
-          <Logout onClick={handleLogout}></Logout>
-          <img src="../Images/student.png" alt="Student" />
+          {/* <Logout onClick={handleLogout}></Logout> */}
+          <img src="../Images/student.png" alt="Student" style={{minHeight:'60px',}}/>
+          <List>
+            <ListItem key={Logout} disablePadding >
+            <ListItemButton
+                  sx={[
+                    {
+                      minHeight: 48,
+                      px: 2.5,
+                      color:'blue'
+                    },
+                    open
+                      ? {
+                          justifyContent: 'initial',
+                        }
+                      : {
+                          justifyContent: 'center',
+                        },
+                  ]}
+                  onClick={handleLogout}
+                >
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
+                        justifyContent: 'center',
+                      },
+                      open
+                        ? {
+                            mr: 3,
+                          }
+                        : {
+                            mr: 'auto',
+                          },
+                    ]}
+                  >
+                    <Logout />
+                  </ListItemIcon>
+                  <ListItemText
+                    
+                    sx={[
+                      open
+                        ? {
+                            opacity: 1,
+                          }
+                        : {
+                            opacity: 0,
+                          },
+                    ]}
+                  >
+                    Log Out
+                    </ListItemText>
+                  
+
+              </ListItemButton>
+            </ListItem>
+          </List>
         </Drawer>
       </Paper>
     </Box>
