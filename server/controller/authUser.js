@@ -1,5 +1,6 @@
 const pool = require("../config/db");
 const generateToken = require("../config/generateToken");
+const { z } = require('zod');
 
 const authUser = async (req, res) => {
   console.log("Login attempt received");
@@ -96,6 +97,7 @@ const authRole = async (req, res) => {
 
 const viewProfile = async (req, res) => {
   try {
+    console.log(req.body)
 
     const studentSID = req.body.SID; 
     const personalResult = await pool.query(`SELECT * FROM Student_Personal WHERE SID = $1`, [studentSID]);
@@ -114,28 +116,24 @@ const viewProfile = async (req, res) => {
     const studentAcademic = academicResult.rows[0];
 
     const profile = {
-      personal_info: {
-        SID: studentPersonal.sid,
-        Sname: studentPersonal.sname,
-        Fname: studentPersonal.fname,
-        Mname: studentPersonal.mname,
-        Bdate: studentPersonal.bdate,
-        Addr_street: studentPersonal.addr_street,
-        Addr_city: studentPersonal.addr_city,
-        Addr_state: studentPersonal.addr_state,
-        Emergency_no: studentPersonal.emergency_no,
-        EmailId: studentPersonal.emailid,
-        gender: studentPersonal.gender,
-      },
-      academic_info: {
-        year: studentAcademic.year,
-        program: studentAcademic.program,
-        department: studentAcademic.department,
-        branch: studentAcademic.branch,
-        CPI: studentAcademic.cpi,
-        admission_rank: studentAcademic.admission_rank,
-        admission_through: studentAcademic.admission_through,
-      }
+      SID: studentPersonal.sid,
+      Sname: studentPersonal.sname,
+      Fname: studentPersonal.fname,
+      Mname: studentPersonal.mname,
+      Bdate: studentPersonal.bdate,
+      nationality: studentPersonal.nationality,
+      gender: studentPersonal.gender,
+      EmailId: studentPersonal.emailid,
+      acadEmailID: studentAcademic.emailid,
+      Emergency_no: studentPersonal.emergency_no,
+      Addr_street: studentPersonal.addr_street,
+      Addr_city: studentPersonal.addr_city,
+      Addr_state: studentPersonal.addr_state,
+      zipcode: studentPersonal.zipcode,
+      program: studentAcademic.program,
+      year: studentAcademic.year,
+      admission_through: studentAcademic.admission_through,
+      admission_rank: studentAcademic.admission_rank,
     };
 
     return res.status(200).json(profile);
@@ -146,28 +144,58 @@ const viewProfile = async (req, res) => {
 };
 
 const editProfile = async (req, res) => {
+  // Define schema for validation
+  // Using zod library for validation process
+  const schema = z.object({  
+    sname: z.string().min(1, { message: 'Student Name is required' }),// means this field has to be in string format and must be not empty
+    fname: z.string().min(1, { message: 'Father\'s name is required' }),// must be non empty
+    mname: z.string().min(1, { message: 'Mother\'s name is required' }),// must be non empty
+    emailId: z.string().email({ error: 'Invalid email address' }),// checking the format of email
+    emergency_no: z.string().regex(/^[0-9]{10}$/, { message: 'Emergency number must be a valid 10-digit number' }),// validation for phone number, must be 10 character 
+    addr_street: z.string().min(1, { message: 'Street address is required' }),// must be non empty
+    addr_city: z.string().min(1, { message: 'City is required' }),// must be non empty
+    addr_state: z.string().min(1, { message: 'State is required' }),// must be non empty
+    zipcode: z.string().regex(/^[0-9]{6}$/, { message: 'Zipcode must be a valid 6-digit number' }),// zipcode validation, must be 6 character 
+    SID: z.string().min(1, { message: 'SID is required' }),// must be non empty
+  });
+  
   const {
-  SID, Sname, Fname, Mname, Bdate, Addr_street, Addr_city, Addr_state, Emergency_no, EmailId, gender, year, program, department, branch, CPI, admission_rank, admission_through
+  sname, fname, mname, emailId, emergency_no, addr_street, addr_city, addr_state, zipcode, SID
   } = req.body;
+
   try {
+
+    const validatedData = schema.parse(req.body);
     await pool.query('BEGIN');
-    // Updating to Student table...
-    const personalQuery = ` UPDATE Student_Personal SET Sname = $1, Fname = $2, Mname = $3, Bdate = $4, Addr_street = $5, Addr_city = $6,  Addr_state = $7, Emergency_no = $8, EmailId = $9, gender = $10  WHERE SID = $11`;
-    const personalValues = [Sname, Fname, Mname, Bdate, Addr_street, Addr_city, Addr_state, Emergency_no, EmailId, gender, SID];
-    await pool.query(personalQuery, personalValues);
-    // Updating to Student_Academic table...
-    const academicQuery = `UPDATE Student_Academic SET year = $1, program = $2, department = $3, branch = $4, CPI = $5, admission_rank = $6, admission_through = $7  WHERE SID = $8`;
-    const academicValues = [year, program, department, branch, CPI, admission_rank, admission_through, SID];
-    await pool.query(academicQuery, academicValues);
-    await pool.query('COMMIT');
-    res.status(200).json({ message: 'OK' });
-} catch (error) {
-    await pool.query('ROLLBACK');
-    if (error.code === '23503' || error.code === '23505') {
-      res.status(400).json({ error: 'Error due to wrong input!!' });
-    }else {
-      res.status(500).json({ error: 'Internal Server Error!!' });
+    const studentSID = req.body.SID; 
+    const personalResult = await pool.query(`SELECT * FROM Student_Personal WHERE SID = $1`, [studentSID]);
+    // checking whether the input SID is existed in database or not?
+    if (personalResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Student is not registered, therefore data is not editable' });
     }
+
+    // Updating to values
+    const personalQuery = ` UPDATE Student_Personal SET sname = $1, fname = $2, mname = $3,emailId = $4,emergency_no= $5, addr_street = $6, addr_city = $7,  addr_state = $8, zipcode = $9 WHERE SID = $10`;
+    const personalValues = [sname, fname, mname,emailId, emergency_no,addr_street, addr_city, addr_state,zipcode, SID];
+    await pool.query(personalQuery, personalValues);
+
+    await pool.query('COMMIT');
+    res.status(200).json({ description: 'Values are updated successfully!!', message: 'OK' });
+
+} catch (error) {
+  await pool.query('ROLLBACK');
+  // if the error is in validation process then executing the below line of code
+   if (error instanceof z.ZodError) {
+    const messages = error.errors.map((err) => err.message);
+    return res.status(400).json({ error: messages });
+  }
+  
+  // If the error occured during data fetching process
+  if (error.code === '23503' || error.code === '23505') {
+    res.status(400).json({ error: 'Error due to wrong input!!' });
+  }else {
+    res.status(500).json({ error: 'Internal Server Error!!' });
+  }
 }
 };
 
