@@ -24,7 +24,7 @@
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -32,7 +32,7 @@
   }
   
   .chat-header {
-    background-color: #007bff;
+    background-color: #43fff9;
     color: white;
     padding: 10px;
     display: flex;
@@ -54,4 +54,22 @@
     overflow-y: auto;
     font-size: 14px;
   }
+  @media (max-width: 768px) {
+    .chat-window {
+      width: 90%; /* Adjust to fit smaller screens */
+      height: 50%; /* Reduce height for smaller screens */
+      bottom: 20px;
+      right: 5%;
+    }
+  }
   
+  /* Media query for very small screens (e.g., phones) */
+  @media (max-width: 480px) {
+    .chat-window {
+      width: 100%; /* Full width */
+      height: 60%; /* Adjust height */
+      bottom: 0;
+      right: 0;
+      border-radius: 0; /* Remove rounded corners for better fit */
+    }
+  }

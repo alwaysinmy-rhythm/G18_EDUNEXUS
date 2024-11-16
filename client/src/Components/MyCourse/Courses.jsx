@@ -80,14 +80,14 @@ const Courses = () => {
 	]);
 	return (
 		<>
-		<h1>My Courses</h1>
+		<h1 style={{position:'fixed', zIndex:'1', width:"100%", margin: 0}}>My Courses</h1>
 		<div style={{marginTop:"50px"}}>
 			<Grid container>
 				{/* Sidebar with Navbar */}
 				
 								{/* Course Cards Section */}
 				<Grid item md={12} xs={9} sm={10} sx={{ position: "relative" }}  style={parentstyle}>
-					<Grid container spacing={4} style={{padding:"5px" , margin:"5px"}}>
+					<Grid container spacing={4} style={{padding:"5px" , margin:"5px" ,}}>
 						{/* Map through courses and render ClassroomCard for each */}
 						{courses.map((course) => (
 							<div key={course.id} style={{padding:"5px" , margin:"5px"}}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, Paper } from '@mui/material';
 import Movable from './Movable';
 import TimeTable from './TimeTable';
@@ -6,35 +6,78 @@ import Events from './Events';
 import ProgressBar from './ProgressBar';
 import '../../CSS/DashCards.css';
 import DashCourse from './DashCourse';
-
+import axious from 'axios';
 
 function DashCards() {
+  const Api = "http://localhost:3001/api/user/dashboard?SID=S001";
+  const [attendance , setattendance] = useState(100);
+  const [notice , setnotice] = useState("");
+  const [event, setevent] = useState("");
+  const [TableData, setTableData] = useState([]);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+  // const fetchApiData = async () => {
+  //   const response = await fetch(Api);
+  //   const data = await response.json();
+  //   console.log("Fetched Data: ", data); // This will show the fetched data
+
+  //   // console.log(temp);
+  //   // setData(temp);
+  //   // setattendance(data.)
+  //   // setTimeout(() => {
+  //   //   console.log(data);
+  //   // }, 1000);
+  //   // console.log(data);
+  //   setattendance(data?.attendance_data?.Overall_attendance);
+  //   setnotice(data?.notice_board_data);
+  //   setevent(data?.upcoming_events_data);
+  //   setTableData(data?.time_table_data);
+  // };
+  
+  const fetchApiData = async () => {
+    try {
+      const response = await axious.get(Api);
+      // console.log(response.data);
+      setattendance(response.data?.attendance_data?.Overall_attendance);
+      setnotice(response.data?.notice_board_data);
+      setevent(response.data?.upcoming_events_data);
+      setTableData(response.data?.time_table_data);
+    } 
+    catch (error) {
+      setError(error);
+      console.log(error);
+    }
+    
+
+  }
+
+  useEffect(() => {
+    fetchApiData();
+  }, []);
+  
+
+
   return (
     <Box>
+                {/* <p>{notice}</p> */}
+
       <Grid container>
         <h1>Welcome, Students</h1>
-       
         <Grid container spacing={2} sx={{ marginTop: '16px' }}>
           <Grid item md={4} xs={12}>
-            
-              <Paper sx={{ marginTop: '16px', borderRadius:'20px 20px 20px 20px', overflow:'hidden' }}>
-
-              <DashCourse/>
-              </Paper>
-              <Paper sx={{ marginTop: '20px', borderRadius:'20px 20px 20px 20px' }}>
-
-              <Events height={'250px'}/>
-              </Paper>
+            <Paper sx={{ marginTop: '16px', borderRadius:'20px',padding:'10px' }}>
+              <DashCourse />
+            </Paper>
+            <Paper sx={{ marginTop: '20px', borderRadius:'20px' }}>
+              <Events height={'320px'} event={event}/>
+            </Paper>
           </Grid>
           <Grid item md={4} xs={12} sx={{ marginTop: '16px' }}>
-              <ProgressBar />
-              <TimeTable />
-            
+            {attendance && <ProgressBar attendance={attendance} />}
+            <TimeTable TableData={TableData}/>
           </Grid>
-          
           <Grid item md={4} xs={12}>
-            <Movable />
-            
+            <Movable notice={notice}/>
           </Grid>
         </Grid>
       </Grid>

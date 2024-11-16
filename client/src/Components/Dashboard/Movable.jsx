@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, arrayMove } from 'react-movable';
 import PropTypes from 'prop-types';
-import Calendar from './Calendar';
 import DashNotice from './DashNotice';
 import { Paper } from '@mui/material';
+import Calendar from './Calendar';
 
 const ListItem = ({ props, value, isDragged }) => {
   return (
@@ -24,6 +24,7 @@ const ListItem = ({ props, value, isDragged }) => {
   );
 };
 
+
 ListItem.propTypes = {
   props: PropTypes.shape({
     style: PropTypes.object.isRequired, // Ensure style is validated
@@ -42,31 +43,29 @@ ListItem.defaultProps = {
   isDragged: false,
 };
 
-const App = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
+const Movable = ({ notice }) => {
+  const [items, setItems] = useState([]);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    console.log(selectedDate);
-  };
+  useEffect(() => {
+    // console.log('Notice data from movable:', notice);
 
-  const [items, setItems] = useState([
-    <Paper 
-      key="calendar"
-      sx={{ padding: '0', borderRadius: '20px' }}
-    >
-      <Calendar date={selectedDate} onChange={handleDateChange} />
-    </Paper>,
-    <DashNotice key="dash-notice" />
-  ]);
+    // Update the items array when notice changes
+    setItems([
+      <Paper key="calendar" sx={{ padding: '0', borderRadius: '20px' }}>
+        {/* You can enable the Calendar component if needed */}
+        <Calendar  />
+      </Paper>,
+      <Paper key="Notice" sx={{ padding: '0', borderRadius: '20px' }}>
+        <DashNotice noticeTitle={notice} />
+      </Paper>
+    ]);
+  }, [notice]);
 
   return (
     <div style={{ paddingRight: '10px' }}>
       <List
         values={items}
-        onChange={({ oldIndex, newIndex }) =>
-          setItems(arrayMove(items, oldIndex, newIndex))
-        }
+        onChange={({ oldIndex, newIndex }) => setItems(arrayMove(items, oldIndex, newIndex))}
         renderList={({ children, props, isDragged }) => (
           <ul
             {...props}
@@ -79,19 +78,11 @@ const App = () => {
           </ul>
         )}
         renderItem={({ value, props, isDragged }) => (
-          <ListItem
-            key={props.key}
-            props={props}
-            value={value}
-            isDragged={isDragged}
-          />
+          <ListItem props={props} value={value} isDragged={isDragged} />
         )}
       />
     </div>
   );
 };
 
-
-
-
-export default App;
+export default Movable;
