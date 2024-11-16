@@ -3,11 +3,60 @@ const pool = require("../config/db");
 const router = express.Router();
 const { spawn } = require('child_process');
 
+let allocationBatch = null; //this variable defines whether the allocation is on or off
+
+//when admin starts course allotment process for one batch 
+const startAllocation = async (req, res) => {
+    if(allocationBatch !== null){
+        await pool.query('');
+        res.status(201).json({ message: `Allocation of batch ${allocationBatch} already in process`});
+        return ;
+    }
+    allocationBatch = req.query.batch;
+    console.log(allocationBatch);
+    res.status(200).json({ message: "Allocation started" });
+}
+//when admin approves the allocation of courses to students then this function is called
+//this function inserts the courses to the student's course_enrolled table and deletes the preferences from student_preference table
+//on approval of courses course-allotment process is completed
+const approveCourseAllotment = async (req, res) => {
+    const studentCourses = req.body;
+    console.log(req.body);
+    for (const [sid, courses] of Object.entries(studentCourses)) {
+        if (!sid || !Array.isArray(courses) || courses.length !== 2) {
+            return res.status(400).json({ message: "Invalid request data" });
+        }
+    }
+    
+
+    const client = await pool.connect();
+    try {
+        const insertCourse1 = 'INSERT INTO course_enrolled (sid, course_id) VALUES ($1, $2)';
+        const insertCourse2 = 'INSERT INTO course_enrolled (sid, course_id) VALUES ($1, $2)';
+        await client.query(insertCourse1, [sid, courses[0]]);
+        await client.query(insertCourse2, [sid, courses[1]]);
+
+        const deletePreferences = 'DELETE FROM student_preference WHERE sid = $1';
+        await client.query(deletePreferences, [sid]);
+        allocationBatch = null;
+        res.status(200).json({ message: "Courses approved and preferences deleted" });
+    } catch (error) {
+        await client.query('ROLLBACK');
+        res.status(500).json({ message: error.message });
+    } finally {
+        client.release();
+    }
+};
+
+
+//this is courseAllotmentController function which is called from server/Routes/adminRoutes.js
+//when admin have all student's prefernces and he wants to allocate courses to students he calls this function
+//response is the allocation of courses to students
 // Improved Python process runner with debugging
 const courseAllotmentController = async (req, res) => {
 
     const student_pref = await pool.query(
-        'select * from edunexus.studentPreference'
+        'select * from studentPreference'
     );
 
     let preferenceList = {};
@@ -36,8 +85,11 @@ const courseAllotmentController = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+    
 };
 
+//this is function to run the python file to run pupl mode for distribution 
+//this is called from courseAllotmentController
 const runILPmodel = (preferenceData) => {
     return new Promise((resolve, reject) => {
         const pythonProcess = spawn('python', ['./Controller/ILP.py'], {
@@ -69,4 +121,4 @@ const runILPmodel = (preferenceData) => {
 };
 
 
-module.exports = courseAllotmentController
+module.exports = { courseAllotmentController, allocationBatch, approveCourseAllotment ,startAllocation}

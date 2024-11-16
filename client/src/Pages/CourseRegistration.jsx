@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import Coursedata from '../Components/Helper/Coursedata'; // Importing course data
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Coursedata from '../Components/Helper/Coursedata.json'; // Importing course data
 import '../CSS/CR.css';
+import AutoStoriesRoundedIcon from '@mui/icons-material/AutoStoriesRounded';
 
+const ENDPOINT="http://localhost:3001";
 const CourseCard = ({ course, onClick, isSelected }) => (
   <div className={`course-card ${isSelected ? 'selected' : ''}`} onClick={() => onClick(course)}>
-    <div className="course-image-container">
-      <img src={course.image} alt={course.title} className="course-image" />
+    <div className="course-icon-container">
+      <AutoStoriesRoundedIcon className="course-icon" fontSize="large" />
       {isSelected && <div className="selected-overlay">Selected</div>}
     </div>
     <h2>{course.title}</h2>
@@ -20,27 +23,48 @@ const CourseModal = ({ course, onClose }) => (
       <h2>{course.title}</h2>
       <p>{course.description}</p>
       <div className="course-info">
-        <span>Duration: {course.duration}</span>
-        <span>Date: {course.date}</span>
+        <span>Course ID: {course.course_code}</span>
+        <span>Semester: {course.semester}</span>
+        <span>Year: {course.year}</span>
+        <span>Credit: {course.credit}</span>
+        <span>Professor: {course.professor}</span>
       </div>
-      <div className="course-rating">
-        {Array.from({ length: 5 }, (_, index) => (
-          <span key={index} className={index < course.rating ? 'star filled' : 'star'}>★</span>
-        ))}
-      </div>
-      <div className="course-price">{course.price === "Free" ? "Free" : `$${course.price}`}</div>
     </div>
   </>
 );
 
 const CourseRegistration = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [studentCourses, setStudentCourses] = useState(['', '', '', '', '', '']);
+  const [studentCourses, setStudentCourses] = useState([]);
   const [formData, setFormData] = useState({
     name: 'Aryan Solanki',
     id: '202201239',
     semester: '5'
   });
+
+  useEffect(() => {
+    const sid = 'S001';
+    /*Cookies.get('sid') */ ;
+    if (sid) {
+      const fetchStudentInfo = async () => {
+        try {
+          const response = await axios.get(`${ENDPOINT}/api/user/course_registration?sid=${sid}`);
+          //console.log(response.data);
+          const { studentInfo, courses } = response.data;
+          setFormData(studentInfo);
+          setStudentCourses(courses);
+          console.log(studentInfo);
+          console.log(courses);
+        } catch (error) {
+          console.error('Error fetching student info:', error);
+        }
+      };
+      
+      // Call the async function
+      fetchStudentInfo();
+      
+    }
+  }, []);
 
   const handleCourseClick = (course) => setSelectedCourse(course);
   const handleModalClose = () => setSelectedCourse(null);
@@ -55,13 +79,44 @@ const CourseRegistration = () => {
     setStudentCourses(['', '', '', '', '', '']);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check if exactly 5 preferences are selected (no empty strings in the array)
+    if (studentCourses.some(course => course === '')) {
+      alert('Please select all 5 preferences before submitting.');
+      return;
+    }
+    
+    // Confirm submission
     const confirmation = window.confirm('Are you sure you want to submit the form?');
+    
     if (confirmation) {
-      alert('Courses registered successfully!');
+      try {
+        const response = await axios.post(`${ENDPOINT}/api/user/course_registration`, {
+          studentId: formData.id,
+          name: formData.name,
+          semester: formData.semester,
+          courses: studentCourses
+        });
+        
+        if (response.status === 200) {
+          alert('Courses registered successfully!');
+        }
+      } catch (error) {
+        console.error('Error during course registration:', error);
+        alert('Failed to register courses. Please try again.');
+      }
     }
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const confirmation = window.confirm('Are you sure you want to submit the form?');
+  //   if (confirmation) {
+  //     alert('Courses registered successfully!');
+  //   }
+  // };
 
   return (
     <div className="course-container">
@@ -70,15 +125,15 @@ const CourseRegistration = () => {
         <div className="student-info">
           <div className="info-item">
             <span className="info-label">Student Name:</span>
-            <span className="info-value">{formData.name}</span>
+            <span className="info-value">{formData.sid}</span>
           </div>
           <div className="info-item">
             <span className="info-label">Student ID:</span>
-            <span className="info-value">{formData.id}</span>
+            <span className="info-value">{formData.sid}</span>
           </div>
           <div className="info-item">
-            <span className="info-label">Semester:</span>
-            <span className="info-value">{formData.semester}</span>
+            <span className="info-label">Batch:</span>
+            <span className="info-value">{formData.year}</span>
           </div>
         </div>
       </div>
@@ -96,7 +151,7 @@ const CourseRegistration = () => {
 
       <form className="course-selection-form" onSubmit={handleSubmit}>
         <div className="form-grid">
-          {[...Array(6)].map((_, index) => (
+          {[...Array(5)].map((_, index) => (
             <div key={index} className="form-group">
               <label htmlFor={`course${index + 1}`}>Course {index + 1}</label>
               <select
@@ -120,9 +175,16 @@ const CourseRegistration = () => {
         </div>
         
         <div className="form-actions">
-          <button type="submit" className="btn-submit">Submit Registration</button>
+          <button 
+            type="submit" 
+            className="btn-submit"
+            disabled={studentCourses.includes('')}
+          >
+            Submit Registration
+          </button>
           <button type="button" className="btn-reset" onClick={handleReset}>Reset Selection</button>
         </div>
+
       </form>
 
       {selectedCourse && (

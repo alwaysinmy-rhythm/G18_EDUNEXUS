@@ -4,16 +4,17 @@ require("dotenv").config();
 config();
 
 const pool = new Pool({
-  user: "postgres",
-  password: "Jaimin@123",
-  database: "edunexus",
-  host: "localhost",
-  port: 5432
 
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: true, 
-});
-
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+    connectionString: process.env.DATABASE_URL + "?sslmode=require",
+    ssl: {
+      rejectUnauthorized: require  // This allows the connection without certificate validation
+    }
+  });
 pool
   .connect()
   .then(() => console.log("Connected to PostgreSQL"))
