@@ -118,8 +118,8 @@ export default function Login() {
   });
 
   return (
-    <div className="my-glass-effect">
-      <CarouselBack />
+    <div className="my-glass-effect" >
+      {/* <CarouselBack /> */}
       <ThemeProvider theme={defaultTheme}>
         <Container
           component="main"
@@ -129,9 +129,10 @@ export default function Login() {
           <CssBaseline />
           <Box
             style={{
-              backgroundColor: "#f5f7f7",
-              boxShadow: "0px 4px 8px #f5f7f7",
-              // background: "transparent",
+              // backgroundColor: "#f5f7f7",
+              boxShadow: "0px 0px 8px  black",
+            
+              background: "transparent",
 
             }}
             sx={{
@@ -172,7 +173,7 @@ export default function Login() {
               variant="h5"
               sx={{ fontFamily: "Quicksand", fontWeight: "bold", m:3 }}
             >
-              Sign in As {currentUser}
+              Login in As {currentUser}
             </Typography>
             <Box
               component="form"
@@ -181,7 +182,7 @@ export default function Login() {
               sx={{ mt: 1, width: "100%" }}
             >
               <TextField
-                id="standard-basic-1"
+                id="filled-basic"
                 variant="standard"
                 margin="normal"
                 required
@@ -198,12 +199,13 @@ export default function Login() {
                     fontFamily: "Quicksand",
                     fontWeight: "bold",
                     color: "#25396F",
+                    // backgroundColor: "white",
                   },
                 }}
                 autoComplete="off"
               />
               <TextField
-                id="standard-basic-2"
+                id="filled-basic"
                 variant="standard"
                 margin="normal"
                 required

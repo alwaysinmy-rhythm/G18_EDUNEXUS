@@ -1,4 +1,3 @@
-// theme.js
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -22,10 +21,19 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(to top left, #FFFFFF, #ADD8E6)', // Gradient from top-left to bottom-right
+          // backgroundcolor: '#FFDEE9',
+          backgroundImage: 'linear-gradient(135deg, #FFDEE9 7%, #B5FFFC 50%, #ffffff 100%)',
           minHeight: '100vh',
           margin: 0,
           padding: 0,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255, 255, 255, 1)',
+          boxShadow: '10px 14px 12px rgba(0, 0, 0, 0.1)', // Soft shadow for depth
         },
       },
     },

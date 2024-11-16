@@ -3,20 +3,20 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Paper } from "@mui/material";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 
-// Component that combines CircularProgress with a label inside it
-function CircularProgressWithLabel(props) {
+function CircularProgressWithLabel({ attendance }) {
+  const attendanceValue = parseFloat(attendance); // Convert attendance to a number
+
   return (
     <Paper sx={{ width: '100%', borderRadius: '20px' }}>
       <Box sx={{ position: "relative", display: "block", marginLeft: '30%', justifyContent: 'center', alignItems: 'center', paddingTop: '10%' }}>
         <CircularProgress
           variant="determinate"
+          value={attendanceValue}
           size={130}
           thickness={5}
-          {...props}
         />
-
         <Box
           sx={{
             top: '20%',
@@ -35,7 +35,7 @@ function CircularProgressWithLabel(props) {
             variant="caption"
             component="div"
             color="text.secondary"
-          >{`${Math.round(props.value)}%`}</Typography>
+          >{`${attendance}`}</Typography>
         </Box>
         <h4>Attendance</h4>
       </Box>
@@ -43,11 +43,14 @@ function CircularProgressWithLabel(props) {
   );
 }
 
-// Add propTypes for CircularProgressWithLabel
 CircularProgressWithLabel.propTypes = {
-  value: PropTypes.number.isRequired, // Validate value prop
+  attendance: PropTypes.string.isRequired,
 };
 
-export default function CircularStatic() {
-  return <CircularProgressWithLabel value={70} />;
+export default function ProgressBar({ attendance }) {
+  return <CircularProgressWithLabel attendance={attendance} />;
 }
+
+ProgressBar.propTypes = {
+  attendance: PropTypes.string.isRequired,
+};

@@ -4,7 +4,7 @@
         "title": "Ict",
         "description": "This course provides a comprehensive overview of business administration on a global scale.",
         "image": "https://via.placeholder.com/150",
-        "Prof" : "Prof. John Doe",
+        "Prof" : "John Doe",
         "Credits" : "3"
         
 
@@ -19,7 +19,7 @@
         "date": "April 1, 2021",
         "rating": 5,
         "image": "https://via.placeholder.com/150",
-        "Prof" : "Prof. John Doe",
+        "Prof" : "John Doe",
         "Credits" : "3"
 
     },
@@ -33,7 +33,7 @@
         "date": "May 1, 2021",
         "rating": 4,
         "image": "https://via.placeholder.com/150",
-        "Prof" : "Prof. John Doe",
+        "Prof" : "John Doe",
         "Credits" : "3"
 
     },
@@ -47,7 +47,7 @@
         "date": "June 15, 2021",
         "rating": 4,
         "image": "https://via.placeholder.com/150",
-        "Prof" : "Prof. John Doe",
+        "Prof" : "John Doe",
         "Credits" : "3"
 
     },
@@ -61,7 +61,7 @@
         "date": "May 3, 2021",
         "rating": 4,
         "image": "https://via.placeholder.com/150",
-        "Prof" : "Prof. John Doe",
+        "Prof" : "John Doe",
         "Credits" : "3"
 
     },
@@ -75,7 +75,7 @@
         "date": "April 10, 2021",
         "rating": 5,
         "image": "https://via.placeholder.com/150",
-        "Prof" : "Prof. John Doe",
+        "Prof" : "John Doe",
         "Credits" : "3"
 
     }
