@@ -6,6 +6,7 @@ import Events from './Events';
 import ProgressBar from './ProgressBar';
 import '../../CSS/DashCards.css';
 import DashCourse from './DashCourse';
+import axious from 'axios';
 
 function DashCards() {
   const Api = "http://localhost:3001/api/user/dashboard?SID=S001";
@@ -13,25 +14,42 @@ function DashCards() {
   const [notice , setnotice] = useState("");
   const [event, setevent] = useState("");
   const [TableData, setTableData] = useState([]);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+  // const fetchApiData = async () => {
+  //   const response = await fetch(Api);
+  //   const data = await response.json();
+  //   console.log("Fetched Data: ", data); // This will show the fetched data
 
-  const fetchApiData = async () => {
-    const response = await fetch(Api);
-    const data = await response.json();
-    // console.log("Fetched Data: ", temp); // This will show the fetched data
-
-    // console.log(temp);
-    // setData(temp);
-    // setattendance(data.)
-    // setTimeout(() => {
-    //   console.log(data);
-    // }, 1000);
-    // console.log(data);
-    setattendance(data?.attendance_data?.Overall_attendance);
-    setnotice(data?.notice_board_data);
-    setevent(data?.upcoming_events_data);
-    setTableData(data?.time_table_data);
-  };
+  //   // console.log(temp);
+  //   // setData(temp);
+  //   // setattendance(data.)
+  //   // setTimeout(() => {
+  //   //   console.log(data);
+  //   // }, 1000);
+  //   // console.log(data);
+  //   setattendance(data?.attendance_data?.Overall_attendance);
+  //   setnotice(data?.notice_board_data);
+  //   setevent(data?.upcoming_events_data);
+  //   setTableData(data?.time_table_data);
+  // };
   
+  const fetchApiData = async () => {
+    try {
+      const response = await axious.get(Api);
+      // console.log(response.data);
+      setattendance(response.data?.attendance_data?.Overall_attendance);
+      setnotice(response.data?.notice_board_data);
+      setevent(response.data?.upcoming_events_data);
+      setTableData(response.data?.time_table_data);
+    } 
+    catch (error) {
+      setError(error);
+      console.log(error);
+    }
+    
+
+  }
 
   useEffect(() => {
     fetchApiData();

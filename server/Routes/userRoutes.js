@@ -5,7 +5,6 @@ const {dashboard} = require("../controller/dashboard");
 const {mycourses} = require("../controller/mycourses");
 const {courseNotes} = require("../controller/courseNotes");
 const {lab_assignment,lab_submission,listlabs,listsubmissions} = require("../controller/lab_assignment");
-const {courseNotes}=require("../controller/courseNotes")
 const {getCourseRegistrationList,registerStudentPreferences} = require("../controller/course_registration");
 
 const router = express.Router();
@@ -14,13 +13,13 @@ router.route('/authRole').post(protect,authRole);
 
 router.route('/viewprofile').get(viewProfile);
 router.route('/editprofile').post(editProfile);
-// router.route('/dashboard/mycourses/notes').get(courseNotes);
+router.route('/dashboard/mycourses/notes').get(courseNotes);
 
 
 
 
 
-router.route('/dashboard').get(protect,dashboard);
+router.route('/dashboard').get(dashboard);
 router.route('/dashboard/mycourses').get(mycourses);
 
 router.route('/lab_assignment').get(lab_assignment);

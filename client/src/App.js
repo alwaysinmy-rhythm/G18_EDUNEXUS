@@ -25,7 +25,6 @@ import Result from './Pages/Result'
 
 
 
-
 function Layout() {
   const navigate = useNavigate();
 
@@ -71,16 +70,18 @@ function Layout() {
 
 const router = createBrowserRouter([
   {
-    path: '/login',
+    path: '/Login',
+    element: <Login />,
+  },
+
+  {
+    path: '/',
     element: <Login />,
   },
   {
     element: <Layout />,
     children: [
-      {
-        path: '/',
-        element: <login />,
-      },
+      
       {
         path: '/dashboard',
         element: <Dashboard />,
@@ -125,16 +126,12 @@ const router = createBrowserRouter([
         path: '/adminDashboard',
         element: <AdminDashboard />
       }
-
     ],
   },
 ]);
 
 
 function App() {
-
-	
-
 	return (
 		<>
     

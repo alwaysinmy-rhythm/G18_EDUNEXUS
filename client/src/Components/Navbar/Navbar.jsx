@@ -130,6 +130,8 @@ const handleLogout = () =>{
                       {
                         minHeight: 48,
                         px: 2.5,
+                        color:'blue'
+
                       },
                       open ? { justifyContent: 'initial' } : { justifyContent: 'center' },
                     ]}
@@ -182,6 +184,8 @@ const handleLogout = () =>{
                     {
                       minHeight: 48,
                       px: 2.5,
+                      color:'blue'
+
                     },
                     open
                       ? {
@@ -228,8 +232,63 @@ const handleLogout = () =>{
               </ListItem>
             ))}
           </List>
-          <Logout onClick={handleLogout}></Logout>
-          <img src="../Images/student.png" alt="Student" />
+          {/* <Logout onClick={handleLogout}></Logout> */}
+          <img src="../Images/student.png" alt="Student" style={{minHeight:'60px',}}/>
+          <List>
+            <ListItem key={Logout} disablePadding >
+            <ListItemButton
+                  sx={[
+                    {
+                      minHeight: 48,
+                      px: 2.5,
+                      color:'blue'
+                    },
+                    open
+                      ? {
+                          justifyContent: 'initial',
+                        }
+                      : {
+                          justifyContent: 'center',
+                        },
+                  ]}
+                  onClick={handleLogout}
+                >
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
+                        justifyContent: 'center',
+                      },
+                      open
+                        ? {
+                            mr: 3,
+                          }
+                        : {
+                            mr: 'auto',
+                          },
+                    ]}
+                  >
+                    <Logout />
+                  </ListItemIcon>
+                  <ListItemText
+                    
+                    sx={[
+                      open
+                        ? {
+                            opacity: 1,
+                          }
+                        : {
+                            opacity: 0,
+                          },
+                    ]}
+                  >
+                    Log Out
+                    </ListItemText>
+                  
+
+              </ListItemButton>
+            </ListItem>
+          </List>
         </Drawer>
       </Paper>
     </Box>

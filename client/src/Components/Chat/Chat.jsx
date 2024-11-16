@@ -181,7 +181,7 @@ function Chat() {
                 value={value}
                 onChange={handleChange}
                 sx={{
-                  width: '400px',
+                  width: '200px',
                   height: '30px',
                   backgroundColor: 'transparent',
                   color: 'black',
@@ -219,7 +219,7 @@ function Chat() {
       onChange={handleMessageChange}
       value={textMessage}
     />
-    <Button variant="contained" endIcon={<SendIcon />} onClick={handleSendMessage} sx={{ height: '40px' }}>
+    <Button variant="contained" endIcon={<SendIcon />} onClick={handleSendMessage} sx={{ height: '40px',backgroundColor:'#43fff9',color :'black' }}>
       Send
     </Button>
   </Box>

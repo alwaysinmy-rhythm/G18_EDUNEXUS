@@ -51,6 +51,7 @@ async function registerStudentPreferences(req, res) {
 }
 
 async function getCourseRegistrationList(req, res) {
+
     const sid = req.query.sid;
     console.log(sid);
   try {
@@ -59,24 +60,26 @@ async function getCourseRegistrationList(req, res) {
       SELECT sid, year FROM student_academic WHERE sid = $1;
     `;
     const studentResult = await pool.query(studentQuery, [sid]);
-    // console.log(studentResult);
-    if (studentResult.rows.length === 0) {
-      return res.status(404).send({ error: 'Student not found' });
-    }
-    const studentInfo = studentResult.rows[0];
-    // console.log(studentInfo);
+      // console.log(studentResult);
+      if (studentResult.rows.length === 0) {
+        return res.status(404).send({ error: 'Student not found' });
+      }
+      const studentInfo = studentResult.rows[0];
+
+   
+//     console.log(studentInfo);
     // Calculate current semester
     const currentYear = new Date().getFullYear();
     const currentSemester = (currentYear - studentInfo.year) * 2 + (new Date().getMonth() >= 6 ? 1 : 0);
-    // console.log(sid, currentSemester);
+//     console.log(sid, currentSemester);
     // Fetch courses offered in the current semester
-    
+
     const coursesQuery = `
       SELECT * FROM course WHERE offered_semester = $1;
     `;
     const coursesResult = await pool.query(coursesQuery, [currentSemester]);
     const courses = coursesResult.rows;
-    // console.log(allocationBatch);
+//     console.log(allocationBatch);
     let allocationStatus = true;
     if( allocationBatch == null || allocationBatch !== currentSemester){
         allocationStatus = false;
