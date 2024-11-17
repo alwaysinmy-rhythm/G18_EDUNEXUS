@@ -8,6 +8,7 @@ const {professor_mycourses,listenrolled_students} = require("../controller/Profe
 const {courseNotes} = require("../controller/courseNotes");
 const {lab_assignment,lab_submission,listlabs,listsubmissions} = require("../controller/lab_assignment");
 const {getCourseRegistrationList,registerStudentPreferences} = require("../controller/course_registration");
+const {roleBasedDashboard} = require('../../server/middleWare/RoleVerifier'); 
 
 const router = express.Router();
 router.route('/login').post(authUser);
@@ -22,6 +23,9 @@ router.route('/dashboard/mycourses/notes').get(courseNotes);
 
 
 
+
+// router.route('/dashboard').get(protect,roleBasedDashboard(dashboard, professor_dashboard));
+// router.route('/dashboard/mycourses').get(protect,roleBasedDashboard(mycourses, professor_mycourses));
 
 router.route('/dashboard').get(dashboard);
 router.route('/dashboard/mycourses').get(mycourses);
