@@ -5,32 +5,70 @@ import TimeTable from './TimeTable';
 import Events from './Events';
 import '../../CSS/DashCards.css';
 import DashCourse from './DashCourse';
-
+import { useState, useEffect } from 'react';
+import Calendar from "./Calendar"
+import axios from 'axios';
 
 function ProfCards() {
+  const Api = "http://localhost:3001/api/user/dashboard?ID=P001";
+  const [event, setevent] = useState("");
+  const [TableData, setTableData] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchApiData = async () => {
+    try {
+      const response = await axios.get(Api);
+      console.log(response.data);
+      setevent(response.data?.upcoming_events_data);
+      setTableData(response.data?.time_table_data);
+    }
+    catch (error) {
+      setError(error);
+      console.log(error);
+    }
+
+
+  }
+
+  useEffect(() => {
+    fetchApiData();
+  }, []);
   return (
     <Box>
       <Grid container>
         <h1>Welcome, Sir</h1>
-        
+
         <Grid container spacing={2}>
-          <Grid container md={8} sx={{ marginTop: '30px' }}>
-            <TimeTable />
-            <Grid item md={6}>
+          <Grid item md={12}>
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
 
-            <Events height={'200px'} />
-            </Grid>
-            <Grid item md={6}>
+            }}>
+              <Paper sx={{ borderRadius: '20px', width: '400px', height: '200px', ml: 5 }}>
 
-            <Paper sx={{ marginTop: '20px', borderRadius:'20px 20px 20px 20px', overflow:'hidden' }}>
-
-              <DashCourse/>
+                <DashCourse />
               </Paper>
-            </Grid>
+              <Paper sx={{ borderRadius: '20px', ml: 5, mr: 5 }}>
+
+                <Events height={200} event={event}></Events>
+              </Paper>
+              <Paper sx={{ borderRadius: '20px', height: "320px" }}>
+
+                <Calendar />
+              </Paper>
+            </Box>
+            <Box sx={{
+              margin: '5px'
+            }}>
+              <TimeTable TableData={TableData} />
+            </Box>
+
           </Grid>
-          <Grid item md={4}>
-            <Movable />
-          </Grid>
+
+
+
         </Grid>
       </Grid>
     </Box>

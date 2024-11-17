@@ -31,7 +31,7 @@ router.route('/dashboard').get(dashboard);
 router.route('/dashboard/mycourses').get(mycourses);
 
 // professor dashboard routes
-router.route('/dashboard').get(professor_dashboard);
+// router.route('/dashboard').get(professor_dashboard);
 router.route('/dashboard/mycourses').get(professor_mycourses);
 router.route('/dashboard/mycourses/:CourseId').get(listenrolled_students);
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import CourseIcon from '@mui/icons-material/AutoStories';
 import BookIcon from '../../Images/book.gif'
 
 import Typography from "@mui/material/Typography";
@@ -25,7 +24,8 @@ const DashCourse = () => {
 						alignItems: "center",
 						justifyContent: "center",
 						flexDirection: "column",
-						 cursor: "pointer"
+						 cursor: "pointer",
+						 margin:'30px'
 					}}
 					onClick={() => {
 						navigate(`/Mycourses`);

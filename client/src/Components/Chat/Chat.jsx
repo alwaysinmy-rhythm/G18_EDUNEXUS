@@ -69,6 +69,7 @@ function Chat() {
             },
           }
         );
+        console.log(response.data);
       } else if (userInfo.SID.startsWith('P')) {
         // Professor endpoint
         response = await axios.post(

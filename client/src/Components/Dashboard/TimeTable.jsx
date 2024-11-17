@@ -54,9 +54,7 @@ export default function TimeTable({ TableData }) {
     ));
   };
 
-  const handleEditClick = () => {
-    setIsEditing((prev) => !prev);
-  };
+
 
   const handleChange = (index, column, value) => {
     const updatedRows = [...rows];
@@ -70,26 +68,7 @@ export default function TimeTable({ TableData }) {
 
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
-      <IconButton
-        onClick={handleEditClick}
-        sx={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-          zIndex: 3,
-          bgcolor: 'white',
-          borderRadius: '50%',
-          boxShadow: 1,
-          opacity: 0.9,
-          '&:hover': {
-            bgcolor: 'primary.main',
-            opacity: 1,
-            color: 'white',
-          },
-        }}
-      >
-        {isEditing ? <SaveAsIcon /> : <EditIcon />}
-      </IconButton>
+      
 
       <TableContainer
         component={Paper}
@@ -98,7 +77,7 @@ export default function TimeTable({ TableData }) {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ minWidth: '250px', fontWeight: 'bold' }}>Time</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Time</TableCell>
               {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map(day => (
                 <TableCell key={day} align="right" sx={{ fontWeight: 'bold' }}>
                   {day}
@@ -109,7 +88,7 @@ export default function TimeTable({ TableData }) {
           <TableBody>
             {rows.map((row, index) => (
               <TableRow key={row.time} sx={{ height: '55px' }}>
-                <TableCell component="th" scope="row" sx={{ minWidth: '250px' }}>
+                <TableCell component="th" scope="row">
                   {row.time}
                 </TableCell>
                 {['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].map(day => (

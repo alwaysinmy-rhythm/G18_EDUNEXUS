@@ -6,11 +6,12 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTheme } from '@mui/material/styles';
 import FeeCard from './FeeCard';
-
+import { useNavigate } from "react-router-dom";
 
 
 
 const FeePayments = () => {
+  const navigate = useNavigate();
   const [semester, setSemester] = useState('');
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -21,7 +22,8 @@ const FeePayments = () => {
 
   const handleApplyForScholarship = () => {
     // Scholarship application logic, using window location for navigation
-    window.location.href = '/scholarship';
+    // window.location.href = '/scholarship';
+    navigate('/scholarship');
   };
 
   const handleDownloadReceipt = () => {

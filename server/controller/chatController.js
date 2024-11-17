@@ -102,7 +102,7 @@ const getMessages = async (req, res) => {
             AND c.semester = $3`, 
             [sid, currentYear, semester]
         );
-
+        console.log(result.rows);
         if (result.rows.length === 0) {
             return res.status(404).json({ message: 'No courses found for the given SID this semester.' });
         }

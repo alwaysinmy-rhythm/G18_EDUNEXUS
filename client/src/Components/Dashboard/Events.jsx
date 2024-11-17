@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import notice from '../Helper/notice.json';
 import { Paper, Typography } from '@mui/material';
 import '../../CSS/Events.css'
 import Box from '@mui/material/Box'
