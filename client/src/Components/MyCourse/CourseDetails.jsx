@@ -168,17 +168,17 @@ const CourseDetails = () => {
 												top: "50%",
 												left: "50%",
 												transform: "translate(-50%, -50%)",
-												width: {
-													xs: "90vw",
-													sm: "80vw",
-													md: "60vw",
-													lg: "50vw",
-												}, // Responsive width
+												// width: {
+												// 	xs: "90vw",
+												// 	sm: "80vw",
+												// 	md: "60vw",
+												// 	lg: "50vw",
+												// }, // Responsive width
 												height: { xs: "80vh", sm: "70vh", md: "auto" }, // Responsive height with flexibility for larger screens
 												maxHeight: "90vh", // Ensures it doesn't overflow on small screens
 												bgcolor: "background.paper",
 												boxShadow: 24,
-												p: 4,
+												// p: 4,
 												borderRadius: "8px",
 												overflowY: "auto", // Adds scroll if content overflows vertically
 											}}

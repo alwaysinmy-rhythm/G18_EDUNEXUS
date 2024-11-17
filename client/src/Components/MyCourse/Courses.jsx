@@ -5,9 +5,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import useAPI from "../../hooks/api";
 //integration
 import axios from "axios";
-const Api ="http://localhost:3001/api/user/dashboard/mycourses?ID=S001&Semester=5";
+const Api =
+	"http://localhost:3001/api/user/dashboard/mycourses?ID=S001&Semester=5";
 
 const parentstyle = {
 	marginTop: "100px",
@@ -20,28 +22,42 @@ const parentstyle = {
 const Courses = () => {
 	// List of courses (already present in your original code)
 
-	const [mycourses, setMycourses] = useState("");
+	const [mycourses, setMycourses] = useState([]);
 	const [semester, setSemester] = React.useState("4");
+
+	const { GET, POST } = useAPI();
 
 	const handleChange = (event) => {
 		setSemester(event.target.value);
 	};
 
-	const fetchApiData = async () => {
-		try {
-			const response = await axios.get(Api);
-			// console.log(response.data);
-
-			setMycourses(response.data?.mycourses);
-		} catch (error) {
-			//   setError(error);
-			console.log(error);
-		}
-	};
 	useEffect(() => {
+		const fetchApiData = async () => {
+			try {
+				// const response = await axios.get(Api);
+				// console.log(response.data);
+
+				const courseData = { ID: "S001", Semester: "5" };
+				const results = await GET("/api/user/dashboard/mycourses", courseData);
+				console.log(results.data.mycourses);
+				setMycourses(results.data.mycourses);
+
+				// const results = await axios.get(
+				// 	`http://localhost:3001/api/user/dashboard/mycourses?ID=${S001}&Semester=${5}`
+				// );
+
+				// setMycourses(response.data?.mycourses);
+			} catch (error) {
+				//   setError(error);
+				console.log(error);
+			}
+		};
 		fetchApiData();
 	}, []);
-	console.log(mycourses);
+
+	useEffect(() => {
+		console.log(mycourses);
+	}, [mycourses]);
 
 	const [courses] = useState([
 		{
@@ -110,11 +126,12 @@ const Courses = () => {
 	]);
 	return (
 		<>
-			<div style={{ display: "flex", alignItems: "center", padding: "0 20px" }}>
-				<h1 style={{zIndex:'1', width:"100%", margin: 0}}>My Courses</h1>
+			<div style={{ display: "flex", alignItems: "center", padding: "0 20px",marginTop:"15px" }}>
+				<h1 style={{ zIndex: "1", width: "100%", margin: 0 }}>My Courses</h1>
 
 				<FormControl
 					sx={{
+						// marginTop: "200px",
 						m: 1,
 						minWidth: 120,
 						borderRadius: "8px",
@@ -154,7 +171,7 @@ const Courses = () => {
 					</Select>
 				</FormControl>
 			</div>
-			<div style={{ marginTop: "50px" }}>
+			<div style={{ marginTop: "40px" }}>
 				<Grid container>
 					{/* Sidebar with Navbar */}
 
@@ -170,16 +187,16 @@ const Courses = () => {
 						<Grid
 							container
 							spacing={4}
-							style={{ padding: "5px", margin: "5px" , }}
+							style={{ padding: "5px", margin: "5px" }}
 						>
 							{/* Map through courses and render ClassroomCard for each */}
-							{courses.map((course) => (
-								<div key={course.id} style={{ padding: "5px", margin: "5px" }}>
+							{mycourses?.map((course, index) => (
+								<div key={index} style={{ padding: "5px", margin: "5px" }}>
 									<CourseCard2
-										courseName={course.courseName}
-										instructor={course.instructor}
+										courseName={course.course_code}
+										instructor={course.course_code}
 										avatarLetter={course.avatarLetter}
-										courseCode={course.courseCode}
+										courseCode={course.course_code}
 									/>
 								</div>
 							))}
