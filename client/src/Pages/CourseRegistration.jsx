@@ -1,107 +1,73 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Coursedata from '../Components/Helper/Coursedata.json'; // Importing course data
-import '../CSS/CR.css';
-import AutoStoriesRoundedIcon from '@mui/icons-material/AutoStoriesRounded';
-
-const ENDPOINT="http://localhost:3001";
-const CourseCard = ({ course, onClick, isSelected }) => (
-  <div className={`course-card ${isSelected ? 'selected' : ''}`} onClick={() => onClick(course)}>
-    <div className="course-icon-container">
-      <AutoStoriesRoundedIcon className="course-icon" fontSize="large" />
-      {isSelected && <div className="selected-overlay">Selected</div>}
-    </div>
-    <h2>{course.title}</h2>
-  </div>
-);
-
-const CourseModal = ({ course, onClose }) => (
-  <>
-    <div className="course-modal-overlay" onClick={onClose}></div>
-    <div className="course-modal">
-      <button className="course-modal-close" onClick={onClose}>&times;</button>
-      <h2>{course.title}</h2>
-      <p>{course.description}</p>
-      <div className="course-info">
-        <span>Course ID: {course.course_code}</span>
-        <span>Semester: {course.semester}</span>
-        <span>Year: {course.year}</span>
-        <span>Credit: {course.credit}</span>
-        <span>Professor: {course.professor}</span>
-      </div>
-    </div>
-  </>
-);
+import '../CSS/CR.css'; // Add styles for the registration page
+import CourseCard from '../Components/CourseRegistration/CourseCard'; // Import the CourseCard component
+import CourseModal from '../Components/CourseRegistration/CourseModal'; // If you want to show modals for course details
+import { Paper } from '@mui/material';
+const ENDPOINT = "http://localhost:3001";
 
 const CourseRegistration = () => {
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [studentCourses, setStudentCourses] = useState([]);
   const [formData, setFormData] = useState({
-    name: 'Aryan Solanki',
-    id: '202201239',
-    semester: '5'
+    // name: 'Aryan Solanki',
+    // id: '202201239',
+    // semester: '5'
   });
+  const [studentCourses, setStudentCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [preferences, setPreferences] = useState(['', '', '', '', '']);
+  const [allocationStatus, checkSelection] = useState(false);
 
   useEffect(() => {
-    const sid = 'S001';
-    /*Cookies.get('sid') */ ;
+    const sid = JSON.parse(localStorage.getItem("userInfo")).SID; // Replace with your actual logic for retrieving the student ID
     if (sid) {
       const fetchStudentInfo = async () => {
         try {
           const response = await axios.get(`${ENDPOINT}/api/user/course_registration?sid=${sid}`);
-          //console.log(response.data);
-          const { studentInfo, courses } = response.data;
+          const { studentInfo, courses, allocationStatus} = response.data;
           setFormData(studentInfo);
           setStudentCourses(courses);
-          console.log(studentInfo);
-          console.log(courses);
+          checkSelection(allocationStatus);
+          console.log(response.data);
         } catch (error) {
           console.error('Error fetching student info:', error);
         }
       };
-      
-      // Call the async function
+
       fetchStudentInfo();
-      
     }
   }, []);
 
   const handleCourseClick = (course) => setSelectedCourse(course);
   const handleModalClose = () => setSelectedCourse(null);
 
-  const handleCourseSelection = (index, courseId) => {
-    const newCourses = [...studentCourses];
-    newCourses[index] = courseId;
-    setStudentCourses(newCourses);
+  const handlePreferenceChange = (index, courseId) => {
+    const newPreferences = [...preferences];
+    newPreferences[index] = courseId;
+    setPreferences(newPreferences);
   };
 
-  const handleReset = () => {
-    setStudentCourses(['', '', '', '', '', '']);
-  };
+  const handleReset = () => setPreferences(['', '', '', '', '']);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Check if exactly 5 preferences are selected (no empty strings in the array)
-    if (studentCourses.some(course => course === '')) {
+
+    if (preferences.some((course) => course === '')) {
       alert('Please select all 5 preferences before submitting.');
       return;
     }
-    
-    // Confirm submission
+
     const confirmation = window.confirm('Are you sure you want to submit the form?');
-    
     if (confirmation) {
       try {
         const response = await axios.post(`${ENDPOINT}/api/user/course_registration`, {
-          studentId: formData.id,
-          name: formData.name,
-          semester: formData.semester,
-          courses: studentCourses
+          studentId: formData.sid,
+          name: formData.sid,
+          semester: formData.year,
+          courses: preferences
         });
-        
+
         if (response.status === 200) {
-          alert('Courses registered successfully!');
+          alert('Preferences submitted successfully!');
         }
       } catch (error) {
         console.error('Error during course registration:', error);
@@ -109,14 +75,6 @@ const CourseRegistration = () => {
       }
     }
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const confirmation = window.confirm('Are you sure you want to submit the form?');
-  //   if (confirmation) {
-  //     alert('Courses registered successfully!');
-  //   }
-  // };
 
   return (
     <div className="course-container">
@@ -132,61 +90,74 @@ const CourseRegistration = () => {
             <span className="info-value">{formData.sid}</span>
           </div>
           <div className="info-item">
-            <span className="info-label">Batch:</span>
+            <span className="info-label">Semester:</span>
             <span className="info-value">{formData.year}</span>
           </div>
         </div>
       </div>
 
       <div className="courses-grid">
-        {Coursedata.map((course) => (
+        {studentCourses.map((course) => (
           <CourseCard
-            key={course.CID}
+            key={course.course_code}
             course={course}
             onClick={handleCourseClick}
-            isSelected={studentCourses.includes(course.CID)}
+            isSelected={preferences.includes(course.course_code)}
           />
         ))}
       </div>
-
+      <Paper>
       <form className="course-selection-form" onSubmit={handleSubmit}>
         <div className="form-grid">
-          {[...Array(5)].map((_, index) => (
-            <div key={index} className="form-group">
-              <label htmlFor={`course${index + 1}`}>Course {index + 1}</label>
+          {preferences.map((_, index) => (
+            <div key={index} id="form-group">
+              <label htmlFor={`preference${index + 1}`}>Preference {index + 1}</label>
               <select
-                id={`course${index + 1}`}
-                value={studentCourses[index]}
-                onChange={(e) => handleCourseSelection(index, e.target.value)}
+                id={`preference${index + 1}`}
+                value={preferences[index]}
+                onChange={(e) => handlePreferenceChange(index, e.target.value)}
               >
                 <option value="">-- Select a Course --</option>
-                {Coursedata.map(course => (
-                  <option 
-                    key={course.CID} 
-                    value={course.CID}
-                    disabled={studentCourses.includes(course.CID) && studentCourses[index] !== course.CID}
+                {studentCourses.map((course) => (
+                  <option
+                    key={course.course_code}
+                    value={course.course_code}
+                    disabled={preferences.includes(course.course_code) && preferences[index] !== course.course_code}
                   >
-                    {course.title}
+                    {course.course_name}
                   </option>
                 ))}
               </select>
             </div>
           ))}
         </div>
-        
+
         <div className="form-actions">
-          <button 
-            type="submit" 
-            className="btn-submit"
-            disabled={studentCourses.includes('')}
-          >
-            Submit Registration
-          </button>
-          <button type="button" className="btn-reset" onClick={handleReset}>Reset Selection</button>
+        {
+          allocationStatus && (
+            <>
+              <button
+                type="submit"
+                className="btn-submit"
+                disabled={!allocationStatus} // Button is disabled if allocationStatus is false
+              >
+                Submit Registration
+              </button>
+              <button
+                type="button"
+                className="btn-reset"
+                onClick={handleReset}
+                disabled={!allocationStatus} // Reset button is also disabled if allocationStatus is false
+              >
+                Reset Selection
+              </button>
+            </>
+          )
+        }
+
         </div>
-
       </form>
-
+      </Paper>
       {selectedCourse && (
         <CourseModal course={selectedCourse} onClose={handleModalClose} />
       )}
