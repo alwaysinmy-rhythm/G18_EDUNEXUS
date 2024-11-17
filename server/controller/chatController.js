@@ -4,7 +4,7 @@ const cryptr = new Cryptr('myTotallySecretKey');
 
 const sendMessage = async (req, res) => {
     const { content, senderId, courseId } = req.body;
-    // console.log(req.body);
+    //console.log(req.body);
 
     if (!content || !senderId || !courseId) {
         return res.status(400).json({ message: "Please provide content, senderId, and courseId." });
@@ -16,7 +16,8 @@ const sendMessage = async (req, res) => {
 
         const cid = await pool.query(
             `select cid from course where course_code = $1`,[courseId]
-        )
+        );
+        
         const result = await pool.query(
             `INSERT INTO message (mtime, content, senderId, CID) VALUES (CURRENT_TIMESTAMP, $1, $2, $3) RETURNING MSG_ID`,
             [encryptedContent, senderId, cid.rows[0].cid]
@@ -40,7 +41,7 @@ const sendMessage = async (req, res) => {
 
 const getMessages = async (req, res) => {
     const { courseId } = req.body;
-    console.log(req.body);
+    //console.log(req.body);
     if (!courseId) {
         return res.status(400).json({ message: "Please provide a courseId." });
     }
@@ -55,7 +56,7 @@ const getMessages = async (req, res) => {
             [cid.rows[0].cid]
         );
 
-        console.log(result.rows)
+        //console.log(result.rows)
 
        //console.log(result.rows);
         const decryptedMessages = result.rows.map((message) => ({
@@ -75,6 +76,7 @@ const getMessages = async (req, res) => {
 
 
   const courseList = async (req, res) => {
+    //console.log(req.body);
     const sid = req.body.SID;
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed (Jan = 0)
@@ -106,6 +108,7 @@ const getMessages = async (req, res) => {
         }
 
         // Return the list of courses for the student in the current semester
+        //console.log(result.rows);
         return res.json(result.rows);
     } catch (err) {
         console.error(err);

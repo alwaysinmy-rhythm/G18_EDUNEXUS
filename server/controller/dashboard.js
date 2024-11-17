@@ -5,6 +5,8 @@ const path = require('path');
 
 const dashboard = async (req,res)=>{
     
+    // console.log("here is the role : ",req.header.role);
+    
     const attendance_data = await get_attendance(req,res);
     const upcoming_events_data = await upcoming_events(req,res);
     const notice_board_data = await notice_board(req,res);
@@ -21,15 +23,14 @@ const dashboard = async (req,res)=>{
 
 const get_attendance = async (req,res)=>{
     try {
-    // console.log("Attend");
-    //   console.log(req.user);
+
       const StudentID = req.query.SID;
   
       const current_date = new Date();
       const current_year = current_date.getFullYear().toString();
       const current_month = current_date.getMonth() + 1;
       let semester_period;
-      console.log(current_year,current_month,current_date);
+    //   console.log(current_year,current_month,current_date);
 
       if(current_month >= 1 && current_month <=6)
         semester_period = 'Winter';
@@ -44,7 +45,7 @@ const get_attendance = async (req,res)=>{
   
       if(attendance.rows.length === 0)
       {
-          return {message : "No data found for student"};
+          return {message : "No attedance data found for student"};
       }
       
       const {total_classes, attended_classes} = attendance.rows[0];
@@ -57,6 +58,7 @@ const get_attendance = async (req,res)=>{
     } catch (error) {
       console.error(error);
       res.status(500);
+      return {Error : "An error occured while fetching the attendance data from database"};
     }
   
 }
@@ -101,18 +103,19 @@ LEFT JOIN Attended_Lab al ON l.Lab_ID = al.Lab_ID AND ce.SID = al.SID
 WHERE c.year = $1 AND c.semester = $2 AND ce.sid = $3 AND al.Submission IS NULL 
 AND l.Due_Time > NOW() AND l.Due_Time < NOW() + INTERVAL '1 day'`,[current_year,semester_period,Studentid]);
 
-            console.log(notices);
+            // console.log(notices);
             
 
             if (notices.rows.length === 0) {
-                return [{ message: "No data found for student" }];
+                return [{ message: "No notices found for student" }];
             }
             
             return notices.rows;
         
     } catch (error) {
         console.error(error);
-        return { error: "Failed to retrieve notices" }; 
+        res.status(500);
+        return { Error: "An error occured while fetching the notices from database" }; 
         
     }
 }

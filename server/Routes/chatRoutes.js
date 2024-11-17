@@ -5,7 +5,7 @@ const { sendMessage, getMessages,courseList,professorCourseList } = require('../
 const router = express.Router();
 router.route('/send').post(protect,sendMessage);
 router.route('/messages').post(protect,getMessages);
-router.route('/courses').post(protect,courseList);
+router.route('/courses').post(courseList);
 router.route('/profcourses').post(protect,professorCourseList);
 
 module.exports = router;

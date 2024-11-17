@@ -37,6 +37,7 @@ function Chat() {
   }, [value, isOpen]);
 
   const fetchMessages = async (userInfo) => {
+    console.log(userInfo.token);
     try {
       const response = await axios.post(
         `${ENDPOINT}/api/groupChat/messages`,
@@ -56,7 +57,7 @@ function Chat() {
   
   const fetchCourses = async (userInfo) => {
     try {
-      let response;
+      var response;
       if (userInfo.SID.startsWith('S')) {
         // Student endpoint
         response = await axios.post(
@@ -80,9 +81,10 @@ function Chat() {
           }
         );
       }
+      console.log(response.data);
       const uniqueCourses = getUniqueCourses(response.data); // Remove duplicate courses
       setCourses(uniqueCourses);// Set courses data
-      console.log(response.data);
+      //console.log(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
@@ -121,7 +123,7 @@ function Chat() {
         `${ENDPOINT}/api/groupChat/send`,
         {
           content: textMessage,
-          senderId: userInfo.SID, // Assuming SID is the sender ID
+          senderId: userInfo.SID, 
           courseId: value
         },
         {
@@ -130,7 +132,8 @@ function Chat() {
           },
         }
       );
-  
+
+      console.log(response.rows);
       // Add the message to local state after a successful send
       const newMessage = {
         content: textMessage,

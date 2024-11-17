@@ -1,10 +1,11 @@
 .container {
     max-width: 900px;
     margin: 20px auto;
-    background-color: #4cade5;
+    background-color: white;
     padding: 20px;
     border-radius: 8px;
-    color: #fcfbfb;
+    color: #19425e;
+    box-shadow:  5px 5px 5px #2e556e;
 }
 
 .header {
@@ -27,12 +28,12 @@ h2 {
     margin-bottom: 20px;
 }
 
-fieldset {
+.field {
     border: none;
     margin-bottom: 20px;
 }
 
-.personal, .contact, .enrollment, .prev-edu {
+.personal, .contact, .enrollment, .adm-info {
     font-size: 1.2em;
     margin-bottom: 10px;
 }
@@ -41,12 +42,13 @@ fieldset {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    padding-bottom: 10px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    flex: 1 1 45%; /* Adjusts to two columns */
+    flex: 1 1 45%; 
     min-width: 200px;
     margin-bottom: 15px;
 }
@@ -68,6 +70,7 @@ TextField[type="fill"] {
 }
 
 .submit-button {
+    margin: 10px;
     padding: 10px 15px;
     font-size: 1em;
     color: white;
