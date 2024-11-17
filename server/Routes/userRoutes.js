@@ -3,13 +3,9 @@ const protect=require("../middleWare/authMiddleware");
 const {authUser,viewProfile,editProfile,authRole} = require("../controller/authUser");
 const {dashboard} = require("../controller/dashboard");
 const {mycourses} = require("../controller/mycourses");
-<<<<<<< HEAD
-//const {courseNotes} = require("../controller/courseNotes");
-=======
 const {professor_dashboard} = require("../controller/Professor_Dashboard");
 const {professor_mycourses,listenrolled_students} = require("../controller/Professor_mycourses");
 const {courseNotes} = require("../controller/courseNotes");
->>>>>>> 55f1b8442b2fd69ffad6dcb355a8bd75d41af057
 const {lab_assignment,lab_submission,listlabs,listsubmissions} = require("../controller/lab_assignment");
 const {getCourseRegistrationList,registerStudentPreferences} = require("../controller/course_registration");
 
