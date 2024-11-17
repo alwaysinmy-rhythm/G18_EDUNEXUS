@@ -10,6 +10,8 @@ const {lab_assignment,lab_submission,listlabs,listsubmissions} = require("../con
 const {getCourseRegistrationList,registerStudentPreferences} = require("../controller/course_registration");
 const {roleBasedDashboard} = require('../../server/middleWare/RoleVerifier'); 
 
+const { getApplications, createApplication } = require("../controller/applicationController");
+
 const router = express.Router();
 router.route('/login').post(authUser);
 router.route('/authRole').post(protect,authRole);
@@ -20,7 +22,8 @@ router.route('/viewprofile').get(viewProfile);
 router.route('/editprofile').post(editProfile);
 router.route('/dashboard/mycourses/:CID/notes').get(courseNotes);
 
-
+router.route('/scholarship/applications').get(getApplications);
+router.route('/scholarship/applications').post(createApplication);
 
 
 
