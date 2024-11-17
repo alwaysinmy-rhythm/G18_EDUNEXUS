@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react'; 
+import ProtectedRoute from './ProtectedRoute';
 import Chat from './Components/Chat/Chat'; 
 import AllCourse from './Pages/AllCourse'; 
 import { Grid } from "@mui/material";
@@ -23,10 +24,11 @@ import AdminDashboard from './Pages/adminDash';
 import Result from './Pages/Result'
 import LabSubmission from "./Components/MyCourse/LabSubmission";
 import CourseDetails from "./Components/MyCourse/CourseDetails";
+import FeePayments from './Components/FeesPayment/FeePayments';
 
 function Layout() {
   const navigate = useNavigate();
-
+  const role=JSON.parse(localStorage.getItem('userInfo')).role;
     const handleAvatarClick = () => {
         navigate('/Profile'); // Navigate to the profile page
     };
@@ -65,68 +67,61 @@ function Layout() {
 }
 
 const router = createBrowserRouter([
-	{
-		path: "/Login",
-		element: <Login />,
-	},
-
-	{
-		path: "/",
-		element: <Login />,
-	},
-	{
-		element: <Layout />,
-		children: [
-			{
-				path: "/dashboard",
-				element: <Dashboard />,
-			},
-			{
-				path: "/ProfDashboard",
-				element: <ProfDashboard />,
-			},
-			{
-				path: "/AvailableCourses",
-				element: <AllCourse />,
-			},
-			{
-				path: "/Mycourses",
-				element: <Courses />,
-			},
-			{
-				path: "/CourseRegistration",
-				element: <CourseRegistration />,
-			},
-			{
-				path: "/FeesPayment",
-				element: <FeesPayment />,
-			},
-			{
-				path: "/scholarship",
-				element: <Scholarship />,
-			},
-			{
-				path: "/Profile",
-				element: <Profile />,
-			},
-			{
-				path: "/Result",
-				element: <Result />,
-			},
-			{
-				path: "/adminDashboard",
-				element: <AdminDashboard />,
-			},
-			{
-				path: "/Mycourses/course-details", //TEMPORARY ROUTE FOR COURSE DETAILS TAB
-				element: <CourseDetails />,
-			},
-			// {
-			// 	path: "/Mycourses/course-details/LabSubmission", //TEMPORARY ROUTE FOR COURSE DETAILS TAB
-			// 	element: <LabSubmission />,
-			// },
-		],
-	},
+  {
+  
+    path: '/',
+    element: <Login />,
+  },
+  {
+    element: <Layout />,
+    children: [
+      // {
+      //   path: '/',
+      //   element: <Dashboard />,
+      // },
+      {
+        path: '/dashboard',
+        element: <ProtectedRoute element={Dashboard} allowedRoles={['student']} />,
+      },
+      
+      {
+        path: '/ProfDashboard',
+        element:<ProtectedRoute element={ProfDashboard} allowedRoles={['faculty']} />,
+      },
+      {
+        path: '/AvailableCourses',
+        element: <ProtectedRoute element={AllCourse} allowedRoles={['faculty, admin, student']} />,
+      },
+	    {
+		    path: "/Mycourses",
+		    element: <ProtectedRoute element={Courses} allowedRoles={['faculty', 'student']} />
+	    },
+      {
+        path:"/CourseRegistration",
+        element: <ProtectedRoute element={CourseRegistration} allowedRoles={['student']} />
+      },
+      {
+        path:'/FeesPayment',
+        element:<ProtectedRoute element={FeePayments} allowedRoles={['student']} />
+      },
+      {
+        path:'/scholarship',
+        element:<ProtectedRoute element={Scholarship} allowedRoles={['student']} />
+      },
+      {
+        path: '/Profile',
+        element: <ProtectedRoute element={Profile} allowedRoles={['faculty', 'admin' , 'student']} />
+      },
+      {
+        path: '/Result',
+        element:<ProtectedRoute element={Result} allowedRoles={['student']} />
+      },
+      {
+        path: '/adminDashboard',
+        element: <ProtectedRoute element={AdminDashboard} allowedRoles={['admin']} />,
+      }
+    ],
+  },
 ]);
 
 

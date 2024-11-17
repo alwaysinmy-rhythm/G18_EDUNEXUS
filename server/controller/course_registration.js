@@ -1,11 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const {allocationBatch} = require('../Controller/courseAllotmentController');
+const {allocationBatch} = require('../controller/courseAllotmentController');
 const pool = require("../config/db");
 
 async function registerStudentPreferences(req, res) {
-  const { sid, pre1, pre2, pre3, pre4, pre5 } = req.body;
-    
+  const { studentId, courses } = req.body;
+  const sid = studentId;
+  const pre1 = courses[0], pre2 = courses[1], pre3 = courses[2], pre4 = courses[3], pre5 = courses[4];
+  if( !sid || !pre1 || !pre2 || !pre3 || !pre4 || !pre5){
+    res.status(400).json({'message' : 'Bad request!'});
+    return ; 
+  }
+  const sidCheckQuery = 'SELECT * FROM login WHERE sid = $1';
+    const sidCheckResult = await pool.query(sidCheckQuery, [sid]);
+    if (sidCheckResult.rows.length === 0) {
+      res.status(404).json({ message: "Student not found" });
+      return ; 
+    }
+    if( (pre1 === pre2 )|| (pre1 === pre3 )|| (pre1 === pre4 )|| (pre1 === pre5 )||
+    (pre2 === pre3 )|| (pre2 === pre4 )|| (pre2 === pre5 )|| 
+    (pre3 === pre4 )|| (pre3 === pre5 )||  
+    (pre4 === pre5 )   
+    ){
+      console.log(pre1, pre2, pre3, pre4, pre5);
+    res.status(400).json({ message: "All courses are not distinct." });
+    return ;
+      }
+
+
   try {
     // Check if the table exists
     const tableCheckQuery = `
@@ -51,9 +73,12 @@ async function registerStudentPreferences(req, res) {
 }
 
 async function getCourseRegistrationList(req, res) {
-
+    if(!req.query.sid){
+      res.status(400).json({'message': 'wrong parameter, require sid'});
+    }
+    
     const sid = req.query.sid;
-    console.log(sid);
+    // console.log(sid);
   try {
     // Fetch student information
     const studentQuery = `

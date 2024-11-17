@@ -2,9 +2,9 @@ const { json } = require("express");
 const pool = require("../config/db");
 
 const mycourses = async (req,res)=>{
-
     const StudentID = req.query.ID;
-
+    // console.log(req.query);
+    
     if(StudentID[0] === 'S'){  
     const Semester = req.query.Semester;
 

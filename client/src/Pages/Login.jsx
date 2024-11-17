@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -34,12 +34,13 @@ export default function Login() {
   const [userid, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(UserRole.STUDENT);
-
-  React.useEffect(() => {
+  
+  useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (userInfo && userInfo.token) {
+    if (!userInfo || !userInfo.token) {
+      navigate('/');
+    } else {
       roleCheck(userInfo);
-      // console.log("Rolecheck")
     }
   }, [navigate]);
 
@@ -71,7 +72,8 @@ export default function Login() {
         }
       }
     } catch (error) {
-      toast.error( error.response.data);
+      console.error("Login failed", error.response.data);
+      navigate('/'); // Redirect to login on error
     }
   };
 
@@ -79,7 +81,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Current User Role:", currentUser);
-  
+    localStorage.removeItem("userinfo");
     try {
       // Send login request to the server
       const response = await axios.post(`${ENDPOINT}/api/user/login`, {
@@ -116,7 +118,7 @@ export default function Login() {
     localStorage.removeItem("userinfo");
     localStorage.removeItem("_grecaptcha");
 
-    navigate('/login');
+    navigate('/');
 
   }
 

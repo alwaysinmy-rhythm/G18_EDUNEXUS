@@ -97,6 +97,7 @@ const CourseRegistration = () => {
       </div>
 
       <div className="courses-grid">
+        
         {studentCourses.map((course) => (
           <CourseCard
             key={course.course_code}
@@ -124,6 +125,7 @@ const CourseRegistration = () => {
                     value={course.course_code}
                     disabled={preferences.includes(course.course_code) && preferences[index] !== course.course_code}
                   >
+                    {course.course_name}
                     {course.course_name}
                   </option>
                 ))}

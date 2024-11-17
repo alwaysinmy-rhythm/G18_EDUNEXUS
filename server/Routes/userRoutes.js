@@ -18,7 +18,7 @@ router.route('/editprofile').post(editProfile);
 router.route('/dashboard/mycourses/notes').get(courseNotes);
 router.route('/viewprofile').get(viewProfile);
 router.route('/editprofile').post(editProfile);
-router.route('/dashboard/mycourses/notes').get(courseNotes);
+router.route('/dashboard/mycourses/:CID/notes').get(courseNotes);
 
 
 
