@@ -7,11 +7,13 @@ let allocationBatch = null; //this variable defines whether the allocation is on
 
 //when admin starts course allotment process for one batch 
 const startAllocation = async (req, res) => {
+    //there is global variable allocationBatch which is used to check whether the allocation is already in process or not.
     if(allocationBatch !== null){
         await pool.query('');
         res.status(201).json({ message: `Allocation of batch ${allocationBatch} already in process`});
         return ;
     }
+    //if allocation is not in process then admin can start the allocation process
     allocationBatch = req.query.batch;
     console.log(allocationBatch);
     res.status(200).json({ message: "Allocation started" });
@@ -52,7 +54,7 @@ const approveCourseAllotment = async (req, res) => {
 //this is courseAllotmentController function which is called from server/Routes/adminRoutes.js
 //when admin have all student's prefernces and he wants to allocate courses to students he calls this function
 //response is the allocation of courses to students
-// Improved Python process runner with debugging
+
 const courseAllotmentController = async (req, res) => {
 
     const student_pref = await pool.query(

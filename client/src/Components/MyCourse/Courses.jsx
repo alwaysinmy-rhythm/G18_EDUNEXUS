@@ -39,6 +39,7 @@ const Courses = () => {
 
 				const courseData = { ID: "S001", Semester: "5" };
 				const results = await GET("/api/user/dashboard/mycourses", courseData);
+				
 				console.log(results.data.mycourses);
 				setMycourses(results.data.mycourses);
 
@@ -46,7 +47,7 @@ const Courses = () => {
 				// 	`http://localhost:3001/api/user/dashboard/mycourses?ID=${S001}&Semester=${5}`
 				// );
 
-				// setMycourses(response.data?.mycourses);
+				setMycourses(response.data?.mycourses);
 			} catch (error) {
 				//   setError(error);
 				console.log(error);

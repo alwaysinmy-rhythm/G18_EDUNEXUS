@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const ENDPOINT = 'http://localhost:3001';
 const AdminDash = () => {
+  const cookiesid = JSON.parse(localStorage.getItem('userInfo'));
+  
   const [selectedBatch, setSelectedBatch] = useState('');
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [courseData, setCourseData] = useState(null);
@@ -15,6 +17,7 @@ const AdminDash = () => {
   const handleStartClick = () => {
     axios.get(`${ENDPOINT}/api/admin/start-course-allocation?batch=${selectedBatch}`)
       .then(response => {
+    console.log(cookiesid);
         // handle success
         console.log(response.data);
       })
