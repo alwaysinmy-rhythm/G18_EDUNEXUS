@@ -97,11 +97,15 @@ const listlabs = async (req,res)=>{
         SELECT l.lab_id,c.course_code,c.prof_id,l.description FROM (course AS c JOIN lab AS l on c.cid = l.cid) 
         WHERE c.cid = $1`,[parseInt(CID)]);
 
+        if(allLabs.rows.length === 0){
+          res.status(200).json({message : "No lab has been assigned yet!"});
+        }
+
         res.json({Labs : allLabs.rows});
     
   } catch (error) {
       console.error("Error : fetching labs from database",error);
-      res.status(401);
+      res.status(500).json({Error : "An error occured while fetching data for assigned lab"});
   }
 }
 
@@ -117,17 +121,18 @@ const listsubmissions = async(req,res)=>{
     
         const submission = await pool.query(`SELECT lab_id,sid,submission,submission_time FROM attended_lab 
           WHERE lab_id = $1`,[Lab_ID]);
+
+          if(submission.rows.length === 0){
+            res.status(200).json({message : "No submission has been done yet!"});
+          }
     
           res.json({Submissions : submission.rows});
         
       } catch (error) {
-    
+
         console.error("Error : fetching labs from database",error);
-        res.status(401);
-        
+        res.status(500).json({Error : "An error occured while fetching data for submitted lab"});
       }
     }
-
 }
-
-module.exports = { lab_assignment , lab_submission, listlabs, listsubmissions};
+module.exports = { lab_assignment , lab_submission, listlabs, listsubmissions}; 
