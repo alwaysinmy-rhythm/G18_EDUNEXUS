@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import CourseIcon from '@mui/icons-material/AutoStories';
+import BookIcon from '../../Images/book.gif'
+
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 
@@ -15,41 +17,30 @@ const DashCourse = () => {
 			>
 				<Box
 					sx={{
-						width: "200px",
-						height: "220px",
-						backgroundColor: "lightgray",
+						width: "100%",
+						height: "100%",
+						padding: "10px",
+						// backgroundColor: "lightgray",
 						display: "flex",
 						alignItems: "center",
 						justifyContent: "center",
 						flexDirection: "column",
+						 cursor: "pointer"
+					}}
+					onClick={() => {
+						navigate(`/Mycourses`);
 					}}
 				>
-					<CourseIcon fontSize="large" />
+					<img src={BookIcon} alt="Book" style={{ width: '40px', height: '40px' }}/>
 					<Typography
 						sx={{ padding: "20px" }}
-						onClick={() => {
-							navigate(`/courses`);
-						}}
-						style={{ cursor: "pointer" }}
+						
 					>
 						My Courses
 					</Typography>
 				</Box>
 
-				<Box
-					sx={{
-						width: "200px",
-						height: "220px",
-						backgroundColor: "lightgray",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						flexDirection: "column",
-					}}
-				>
-					<CourseIcon fontSize="large" />
-					<Typography sx={{ padding: "20px" }}>No Courses</Typography>
-				</Box>
+				
 			</Box>
 		);
 };

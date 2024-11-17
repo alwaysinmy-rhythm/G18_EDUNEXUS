@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import StudentLogin from "../Images/student_login.png";
 import FacultyLogin from "../Images/faculty.png";
+import AdminLogin from "../Images/admin.png"
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -23,6 +24,7 @@ const defaultTheme = createTheme();
 const UserRole = {
   STUDENT: "student",
   FACULTY: "faculty",
+  ADMIN:"admin"
 };
 
 export default function Login() {
@@ -36,7 +38,7 @@ export default function Login() {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo && userInfo.token) {
       roleCheck(userInfo); 
-      console.log("Rolecheck")
+      // console.log("Rolecheck")
     }
   }, [navigate]);
 
@@ -55,7 +57,7 @@ export default function Login() {
           }
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.success) {
         console.log("Login Successful", response.data);
         localStorage.setItem("userInfo", JSON.stringify(response.data));
@@ -63,6 +65,8 @@ export default function Login() {
           navigate("/dashboard");
         } else if (response.data.role === "faculty") {
           navigate("/profdashboard");
+        }else if (response.data.role === "admin") {
+          navigate("/admindashboard");
         }
       }
     } catch (error) {
@@ -82,12 +86,14 @@ export default function Login() {
       });
       console.log(response.data.success);
       if (response.data.success) {
-        console.log( response.data);
+        // console.log( response.data);
         localStorage.setItem("userInfo", JSON.stringify(response.data));
         if (currentUser === UserRole.STUDENT) {
           navigate("/dashboard");
         } else if (currentUser === UserRole.FACULTY) {
           navigate("/profdashboard");
+        }else if (currentUser === UserRole.ADMIN) {
+          navigate("/admindashboard");
         }
       }
     } catch (error) {
@@ -110,6 +116,9 @@ export default function Login() {
   const handleFacultyLogin = () => {
     setCurrentUser(UserRole.FACULTY);
   };
+  const handleAdminLogin =()=>{
+    setCurrentUser(UserRole.ADMIN);
+  }
 
   // Define a border style for the selected avatar
   const avatarStyle = (role) => ({
@@ -118,8 +127,8 @@ export default function Login() {
   });
 
   return (
-    <div className="my-glass-effect">
-      <CarouselBack />
+    <div className="my-glass-effect" >
+      {/* <CarouselBack /> */}
       <ThemeProvider theme={defaultTheme}>
         <Container
           component="main"
@@ -129,9 +138,10 @@ export default function Login() {
           <CssBaseline />
           <Box
             style={{
-              backgroundColor: "#f5f7f7",
-              boxShadow: "0px 4px 8px #f5f7f7",
-              // background: "transparent",
+              // backgroundColor: "#f5f7f7",
+              boxShadow: "0px 0px 8px  black",
+            
+              background: "transparent",
 
             }}
             sx={{
@@ -154,16 +164,22 @@ export default function Login() {
               }}
             >
               <Avatar
-                sx={{ mr: 8, width: 56, height: 56 }}
+                sx={{ mr: 4, width: 56, height: 56 }}
                 style={{ backgroundColor: "#25396F", ...avatarStyle(UserRole.STUDENT) }} // Apply border style
                 src={StudentLogin}
                 onClick={handleStudentLogin}
               />
               <Avatar
-                sx={{ ml: 8, width: 56, height: 56 }}
+                sx={{ mr:4,ml: 4, width: 56, height: 56 }}
                 style={{ backgroundColor: "#25396F", ...avatarStyle(UserRole.FACULTY) }} // Apply border style
                 src={FacultyLogin}
                 onClick={handleFacultyLogin}
+              />
+              <Avatar
+                sx={{ ml: 4, width: 56, height: 56 }}
+                style={{ backgroundColor: "#25396F", ...avatarStyle(UserRole.ADMIN) }} // Apply border style
+                src={AdminLogin}
+                onClick={handleAdminLogin}
               />
             </Box>
 
@@ -172,7 +188,7 @@ export default function Login() {
               variant="h5"
               sx={{ fontFamily: "Quicksand", fontWeight: "bold", m:3 }}
             >
-              Sign in As {currentUser}
+              Login in As {currentUser}
             </Typography>
             <Box
               component="form"
@@ -181,7 +197,7 @@ export default function Login() {
               sx={{ mt: 1, width: "100%" }}
             >
               <TextField
-                id="standard-basic-1"
+                id="filled-basic"
                 variant="standard"
                 margin="normal"
                 required
@@ -198,12 +214,13 @@ export default function Login() {
                     fontFamily: "Quicksand",
                     fontWeight: "bold",
                     color: "#25396F",
+                    // backgroundColor: "white",
                   },
                 }}
                 autoComplete="off"
               />
               <TextField
-                id="standard-basic-2"
+                id="filled-basic"
                 variant="standard"
                 margin="normal"
                 required

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import notice from '../Helper/notice.json';
 import { Paper, Typography } from '@mui/material';
 import '../../CSS/Events.css'
@@ -31,42 +31,48 @@ function getRandomColor() {
   return colorPalette[randomIndex];
 }
 
-function Events(props) {
+function Events({height, event}) {
+
+  useEffect(() => {
+    // console.log('Event data:', event);
+  }, [event]);
   return (
     <>
     <h2 className='eventsHead'>Up Coming Events!</h2>
+    {/* <h3>{props.event}</h3> */}
 
     <Box
       sx={{
-        maxHeight: props.height,
+        maxHeight:height,
         overflowY: 'auto', 
         scrollbarWidth: 'thin',
       }}
     >
-      {notice.map(item => {
-        // Get a new random color for each event
-        const randomColor = getRandomColor();
+     {(event || []).map(data => {
+          // Get a new random color for each event
+          const randomColor = getRandomColor();
 
-        return (
-          <Paper
-            key={item.id} 
-            sx={{
-              paddingLeft: '10px', 
-              marginRight: '0px', 
-              margin: '10px', 
-              borderLeft: `5px solid ${randomColor}`,
-              borderTopLeftRadius:'20px' ,
-              '&:hover': {
-                transform: 'scale(1.05)',  // Slightly scale up on hover
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',  // Add shadow on hover
-              }
-            }}
-          >
-            <Typography variant="h6">{item.title}</Typography>
-            <Typography variant="body1">{item.content}</Typography>
-          </Paper>
-        );
-      })}
+          return (
+            <Paper
+              key={data.id} 
+              sx={{
+                paddingLeft: '10px', 
+                marginRight: '0px', 
+                margin: '10px', 
+                borderLeft: `5px solid ${randomColor}`,
+                borderTopLeftRadius:'20px' ,
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+                }
+              }}
+            >
+              <Typography variant="h6">{data.title}</Typography>
+              <Typography variant="body1">{data.description}</Typography>
+              <Typography variant="body1">{data.date}</Typography>
+            </Paper>
+          );
+        })}
     </Box>
     </>
   );

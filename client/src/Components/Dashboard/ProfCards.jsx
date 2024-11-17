@@ -2,8 +2,6 @@ import React from 'react';
 import { Box, Grid, Paper } from '@mui/material';
 import Movable from './Movable';
 import TimeTable from './TimeTable';
-import Avatar from '@mui/material/Avatar';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Events from './Events';
 import '../../CSS/DashCards.css';
 import DashCourse from './DashCourse';
@@ -15,7 +13,7 @@ function ProfCards() {
       <Grid container>
         <h1>Welcome, Sir</h1>
         
-        <Grid container spacing={2} sx={{ marginTop: '16px' }}>
+        <Grid container spacing={2}>
           <Grid container md={8} sx={{ marginTop: '30px' }}>
             <TimeTable />
             <Grid item md={6}>

@@ -3,15 +3,22 @@ const protect=require("../middleWare/authMiddleware");
 const {authUser,viewProfile,editProfile,authRole} = require("../controller/authUser");
 const {dashboard} = require("../controller/dashboard");
 const {mycourses} = require("../controller/mycourses");
+<<<<<<< HEAD
 //const {courseNotes} = require("../controller/courseNotes");
+=======
+const {professor_dashboard} = require("../controller/Professor_Dashboard");
+const {professor_mycourses,listenrolled_students} = require("../controller/Professor_mycourses");
+const {courseNotes} = require("../controller/courseNotes");
+>>>>>>> 55f1b8442b2fd69ffad6dcb355a8bd75d41af057
 const {lab_assignment,lab_submission,listlabs,listsubmissions} = require("../controller/lab_assignment");
-const {courseNotes}=require("../controller/courseNotes")
 const {getCourseRegistrationList,registerStudentPreferences} = require("../controller/course_registration");
 
 const router = express.Router();
 router.route('/login').post(authUser);
 router.route('/authRole').post(protect,authRole);
-
+router.route('/viewprofile').get(viewProfile);
+router.route('/editprofile').post(editProfile);
+router.route('/dashboard/mycourses/notes').get(courseNotes);
 router.route('/viewprofile').get(viewProfile);
 router.route('/editprofile').post(editProfile);
 router.route('/dashboard/mycourses/notes').get(courseNotes);
@@ -20,8 +27,13 @@ router.route('/dashboard/mycourses/notes').get(courseNotes);
 
 
 
-router.route('/dashboard').get(protect,dashboard);
+router.route('/dashboard').get(dashboard);
 router.route('/dashboard/mycourses').get(mycourses);
+
+// professor dashboard routes
+router.route('/dashboard').get(professor_dashboard);
+router.route('/dashboard/mycourses').get(professor_mycourses);
+router.route('/dashboard/mycourses/:CourseId').get(listenrolled_students);
 
 router.route('/lab_assignment').get(lab_assignment);
 router.route('/course_registration').get(getCourseRegistrationList);
