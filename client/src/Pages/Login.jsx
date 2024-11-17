@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,11 +16,17 @@ import CarouselBack from "../Components/Login/Carousel";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import { useContextState } from "../context/context";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"; // Import toast 
+import { Today } from "@mui/icons-material";
+import config from "../config";
 
 
-const ENDPOINT = "http://localhost:3001";
 
+
+
+
+const ENDPOINT = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+console.log(ENDPOINT);
 const defaultTheme = createTheme();
 const UserRole = {
   STUDENT: "student",
@@ -72,7 +78,7 @@ export default function Login() {
         }
       }
     } catch (error) {
-      console.error("Login failed", error.response.data);
+      toast.error( error.response.data);
       navigate('/'); // Redirect to login on error
     }
   };
@@ -116,7 +122,7 @@ export default function Login() {
 
   const handleLogout = () => {
     localStorage.removeItem("userinfo");
-    localStorage.removeItem("_grecaptcha");
+    // localStorage.removeItem("_grecaptcha");
 
     navigate('/');
 
@@ -260,14 +266,14 @@ export default function Login() {
                 autoComplete="off"
               />
 
-              <ReCAPTCHA
-                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+              {/* <ReCAPTCHA
+                sitekey={config.REACT_APP_RECAPTCHA_SITE_KEY}
                 onChange={(val) => setcapVal(val)}
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth
-                disabled={!capVal}
+                // disabled={!capVal}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 style={{
