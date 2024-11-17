@@ -22,8 +22,8 @@ import Profile from './Pages/Profile'
 import { useNavigate } from 'react-router-dom';
 import AdminDashboard from './Pages/adminDash';
 import Result from './Pages/Result'
-
-
+import LabSubmission from "./Components/MyCourse/LabSubmission";
+import CourseDetails from "./Components/MyCourse/CourseDetails";
 
 function Layout() {
   const navigate = useNavigate();
@@ -69,65 +69,72 @@ function Layout() {
 }
 
 const router = createBrowserRouter([
-  {
-    path: '/Login',
-    element: <Login />,
-  },
+	{
+		path: "/Login",
+		element: <Login />,
+	},
 
-  {
-    path: '/',
-    element: <Login />,
-  },
-  {
-    element: <Layout />,
-    children: [
-      
-      {
-        path: '/dashboard',
-        element: <Dashboard />,
-      },
-      {
-        path: '/sample',
-        element: <Sample />,
-      },
-      {
-        path: '/ProfDashboard',
-        element: <ProfDashboard />,
-      },
-      {
-        path: '/AvailableCourses',
-        element: <AllCourse />,
-      },
-	    {
-		    path: "/Mycourses",
-		    element: <Courses />
-	    },
-      {
-        path:"/CourseRegistration",
-        element: <CourseRegistration />,
-      },
-      {
-        path:'/FeesPayment',
-        element:<FeesPayment />,
-      },
-      {
-        path:'/scholarship',
-        element: <Scholarship/>,
-      },
-      {
-        path: '/Profile',
-        element: <Profile />
-      },
-      {
-        path: '/Result',
-        element: <Result />
-      },
-      {
-        path: '/adminDashboard',
-        element: <AdminDashboard />
-      }
-    ],
-  },
+	{
+		path: "/",
+		element: <Login />,
+	},
+	{
+		element: <Layout />,
+		children: [
+			{
+				path: "/dashboard",
+				element: <Dashboard />,
+			},
+			{
+				path: "/sample",
+				element: <Sample />,
+			},
+			{
+				path: "/ProfDashboard",
+				element: <ProfDashboard />,
+			},
+			{
+				path: "/AvailableCourses",
+				element: <AllCourse />,
+			},
+			{
+				path: "/Mycourses",
+				element: <Courses />,
+			},
+			{
+				path: "/CourseRegistration",
+				element: <CourseRegistration />,
+			},
+			{
+				path: "/FeesPayment",
+				element: <FeesPayment />,
+			},
+			{
+				path: "/scholarship",
+				element: <Scholarship />,
+			},
+			{
+				path: "/Profile",
+				element: <Profile />,
+			},
+			{
+				path: "/Result",
+				element: <Result />,
+			},
+			{
+				path: "/adminDashboard",
+				element: <AdminDashboard />,
+			},
+			{
+				path: "/Mycourses/course-details", //TEMPORARY ROUTE FOR COURSE DETAILS TAB
+				element: <CourseDetails />,
+			},
+			// {
+			// 	path: "/Mycourses/course-details/LabSubmission", //TEMPORARY ROUTE FOR COURSE DETAILS TAB
+			// 	element: <LabSubmission />,
+			// },
+		],
+	},
 ]);
 
 
