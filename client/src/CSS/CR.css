@@ -133,19 +133,19 @@
   margin-bottom: 2rem;
 }
 
-.form-group {
+#form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.form-group label {
+#form-group label {
   font-size: 0.9rem;
   color: #666;
   font-weight: 500;
 }
 
-.form-group select {
+#form-group select {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ddd;
@@ -156,12 +156,12 @@
   box-sizing: border-box;
 }
 
-.form-group select:focus {
+#form-group select:focus {
   outline: none;
   border-color: #1a237e;
 }
 
-.form-group select option:disabled {
+#form-group select option:disabled {
   color: #999;
   background: #f0f0f0;
 }
@@ -169,11 +169,17 @@
 /* Form Actions */
 .form-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   justify-content: flex-end;
+  padding: 1rem;
 }
 
-.btn-submit, .btn-reset {
+.btn-submit,
+.btn-reset {
+  flex-basis: 20%;
+  min-width: 120px;
+  max-width: 200px;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
@@ -282,13 +288,14 @@
     grid-template-columns: 1fr;
   }
 
-  .btn-submit, .btn-reset {
+  .btn-submit,
+  .btn-reset {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
 
   .course-modal {
-    width: 90%;
+    width: 70%;
     padding: 1.5rem;
   }
 
@@ -296,8 +303,8 @@
     font-size: 1.5rem;
   }
 
-  .course-price {
-    font-size: 1rem;
+  .course-info {
+    flex-wrap: wrap;
   }
 }
 
@@ -328,7 +335,8 @@
   }
 
   .course-modal {
-    max-width: 85%;
+    width: 80%;
+    padding: 1.5rem;
   }
 }
 
