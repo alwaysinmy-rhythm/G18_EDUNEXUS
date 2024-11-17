@@ -8,8 +8,9 @@ import '../../CSS/DashCards.css';
 import DashCourse from './DashCourse';
 import axious from 'axios';
 
-function DashCards() {
-  const Api = "http://localhost:3001/api/user/dashboard";
+export default function DashCards() {
+  const SID=JSON.parse(localStorage.getItem("userInfo")).SID;
+  const Api = `http://localhost:3001/api/user/dashboard?SID=${SID}`;
   const [attendance , setattendance] = useState(100);
   const [notice , setnotice] = useState("");
   const [event, setevent] = useState("");
@@ -41,13 +42,10 @@ function DashCards() {
     console.log(role);
     try {
       const response = await axious.get(Api,{
-        headers: {
-          SID: SID,
-          role: role,
-        },
-        }
-      );
-      // console.log(response.data);
+        SID:SID,
+        role:role
+      });
+      console.log(response.data);
       setattendance(response.data?.attendance_data?.Overall_attendance);
       setnotice(response.data?.notice_board_data);
       setevent(response.data?.upcoming_events_data);
@@ -94,5 +92,3 @@ function DashCards() {
     </Box>
   );
 }
-
-export default DashCards;

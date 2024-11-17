@@ -10,7 +10,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./Components/theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Sample from "./Pages/sample";
 import { Avatar, Box } from "@mui/material";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import ProfDashboard from "./Pages/ProfDashboard";
@@ -54,10 +53,7 @@ function Layout() {
 						display: "flex",
 					}}
 				>
-					<NotificationsNoneIcon
-						fontSize="large"
-						sx={{ marginRight: "30px", marginTop: "5px"}}
-					></NotificationsNoneIcon>
+					
 					<Avatar alt="User image" src="./favicon.ico"onClick={handleAvatarClick} 
                         style={{ cursor: "pointer" }}/>
 					<Chat></Chat>
@@ -84,10 +80,6 @@ const router = createBrowserRouter([
 			{
 				path: "/dashboard",
 				element: <Dashboard />,
-			},
-			{
-				path: "/sample",
-				element: <Sample />,
 			},
 			{
 				path: "/ProfDashboard",

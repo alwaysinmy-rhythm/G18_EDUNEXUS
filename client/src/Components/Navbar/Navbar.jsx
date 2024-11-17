@@ -22,6 +22,7 @@ import CourseIcon from '@mui/icons-material/AutoStories';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logout } from '@mui/icons-material';
+import { useState, useEffect } from 'react';
 
 const drawerWidth = 260;
 
@@ -62,6 +63,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })( // Change here
+
   ({ theme }) => ({
     width: drawerWidth,
     flexShrink: 0,
@@ -93,9 +95,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Navbar() {
   const [open, setOpen] = React.useState(window.screen.width < '900' ? false : true);
   const isAbove900px = useMediaQuery('(max-width:900px)');
-
+  
   const navigate = useNavigate();
-
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+      
+      const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+      setUserInfo(storedUserInfo);
+      console.log(storedUserInfo);
+      
+  }, []);
 const handleLogout = () =>{
   localStorage.removeItem("userInfo");
   localStorage.removeItem("_grecaptcha");
@@ -122,7 +131,7 @@ const handleLogout = () =>{
           </DrawerHeader>
           <Divider />
           <List>
-            {['Dashboard', 'AvailableCourses', 'Result','Mycourses'].map((text, index) => (
+            {[userInfo.role==='student'?'Dashboard':"Profdashboard", 'AvailableCourses', 'Result','Mycourses'].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                 <Link to={`/${text.toLowerCase()}`} style={{ textDecoration: 'none' }}>
                   <ListItemButton
@@ -174,7 +183,9 @@ const handleLogout = () =>{
             ))}
           </List>
           <Divider />
-          <List>
+          {
+            userInfo.role === 'student' && (
+              <List>
             {['FeesPayment', 'CourseRegistration', 'Settings'].map((text, index) => (
               <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <Link to={`/${text.toLowerCase()}`} style={{ textDecoration: 'none' }}>
@@ -232,9 +243,12 @@ const handleLogout = () =>{
               </ListItem>
             ))}
           </List>
+            )
+          }
+          
           {/* <Logout onClick={handleLogout}></Logout> */}
           <img src="../Images/student.png" alt="Student" style={{minHeight:'60px',}}/>
-          <List>
+          <List sx={{bottom:0}}>
             <ListItem key={Logout} disablePadding >
             <ListItemButton
                   sx={[
