@@ -9,7 +9,7 @@ import DashCourse from './DashCourse';
 import axious from 'axios';
 
 function DashCards() {
-  const Api = "http://localhost:3001/api/user/dashboard?SID=S001";
+  const Api = "http://localhost:3001/api/user/dashboard";
   const [attendance , setattendance] = useState(100);
   const [notice , setnotice] = useState("");
   const [event, setevent] = useState("");
@@ -35,8 +35,18 @@ function DashCards() {
   // };
   
   const fetchApiData = async () => {
+    const SID=JSON.parse(localStorage.getItem("userInfo")).SID;
+    const role=JSON.parse(localStorage.getItem("userInfo")).role;
+    console.log(SID);
+    console.log(role);
     try {
-      const response = await axious.get(Api);
+      const response = await axious.get(Api,{
+        headers: {
+          SID: SID,
+          role: role,
+        },
+        }
+      );
       // console.log(response.data);
       setattendance(response.data?.attendance_data?.Overall_attendance);
       setnotice(response.data?.notice_board_data);
