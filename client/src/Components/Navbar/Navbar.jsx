@@ -109,7 +109,7 @@ const handleLogout = () =>{
   localStorage.removeItem("userInfo");
   localStorage.removeItem("_grecaptcha");
 
-  navigate('/login');
+  navigate('/');
 
 }
 
