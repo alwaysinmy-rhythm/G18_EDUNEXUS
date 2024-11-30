@@ -91,7 +91,11 @@ const router = createBrowserRouter([
 	    {
 		    path: "/Mycourses",
 		    element: <ProtectedRoute element={Courses} allowedRoles={['faculty', 'student']} />
-	    },
+      },
+      {
+        path: "/Mycourses/:courseId",
+		    element: <ProtectedRoute element={CourseDetails} allowedRoles={['faculty', 'student']} />
+      },
       {
         path:"/CourseRegistration",
         element: <ProtectedRoute element={CourseRegistration} allowedRoles={['student']} />
