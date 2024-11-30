@@ -23,6 +23,7 @@ import Result from './Pages/Result'
 import LabSubmission from "./Components/MyCourse/LabSubmission";
 import CourseDetails from "./Components/MyCourse/CourseDetails";
 import FeePayments from './Components/FeesPayment/FeePayments';
+import NotFound from './Components/404NotFound';
 
 function Layout() {
   const navigate = useNavigate();
@@ -114,6 +115,10 @@ const router = createBrowserRouter([
       {
         path: '/adminDashboard',
         element: <ProtectedRoute element={AdminDashboard} allowedRoles={['admin']} />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       }
     ],
   },
