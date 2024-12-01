@@ -1,5 +1,6 @@
 # /Client
-
+/client/src/Components/AbousUs/About.test.jsx
+/client/src/Components/AbousUs/Feature.test.jsx
 /client/# dependencies
 /client/node_modules
 /client/.pnp
