@@ -13,8 +13,9 @@ import { toast, ToastContainer } from "react-toastify";
 const ENDPOINT = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
 const Profile = () => {
     const SID = JSON.parse(localStorage.getItem("userInfo")).SID;
-    const Api = `http://localhost:3001/api/user/viewprofile?SID=${SID}`;
+    const Api = `${ENDPOINT}/api/user/viewprofile?SID=${SID}`;
     const [error, setError] = useState(null);
+    const [formErrors, setFormErrors] = useState({});
     const [formData, setFormData] = useState({
         studentId: "",
         Studentname: "",
@@ -87,12 +88,92 @@ const Profile = () => {
         }));
     };
 
+    const validateFields = () => {
+        const errors = {};
+        const nameRegex = /^[a-zA-Z\s-]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\d{10,15}$/;
+        const zipRegex = /^\d{5,10}$/;
+      
+        // Student Name Validation
+        if (!formData.Studentname || !formData.Studentname.trim()) {
+          errors.Studentname = "Student Name cannot be empty or spaces only.";
+        } else if (!nameRegex.test(formData.Studentname.trim())) {
+          errors.Studentname = "Invalid name. Only alphabets, spaces, and hyphens are allowed.";
+        }
+      
+        // Father's Name Validation
+        if (!formData.fatherName || !formData.fatherName.trim()) {
+          errors.fatherName = "Father's Name cannot be empty or spaces only.";
+        } else if (!nameRegex.test(formData.fatherName.trim())) {
+          errors.fatherName = "Invalid father's name. Only alphabets, spaces, and hyphens are allowed.";
+        }
+      
+        // Mother's Name Validation
+        if (!formData.motherName || !formData.motherName.trim()) {
+          errors.motherName = "Mother's Name cannot be empty or spaces only.";
+        } else if (!nameRegex.test(formData.motherName.trim())) {
+          errors.motherName = "Invalid mother's name. Only alphabets, spaces, and hyphens are allowed.";
+        }
+      
+        // Personal Email Validation
+        if (!formData.personalEmail || !formData.personalEmail.trim()) {
+          errors.personalEmail = "Personal Email cannot be empty or spaces only.";
+        } else if (!emailRegex.test(formData.personalEmail.trim())) {
+          errors.personalEmail = "Invalid email format.";
+        }
+      
+        // Phone Number Validation
+        if (!formData.phone || !formData.phone.trim()) {
+          errors.phone = "Phone number cannot be empty or spaces only.";
+        } else if (!phoneRegex.test(formData.phone.trim())) {
+          errors.phone = "Invalid phone number. Must contain 10 to 15 digits.";
+        }
+      
+        // Address Validation
+        if (!formData.address || !formData.address.trim()) {
+          errors.address = "Address cannot be empty or spaces only.";
+        } else if (formData.address.trim().length < 5) {
+          errors.address = "Address must be at least 5 characters long.";
+        }
+      
+        // City Validation
+        if (!formData.city || !formData.city.trim()) {
+          errors.city = "City cannot be empty or spaces only.";
+        } else if (!nameRegex.test(formData.city.trim())) {
+          errors.city = "Invalid city name. Only alphabets, spaces, and hyphens are allowed.";
+        }
+      
+        // State Validation
+        if (!formData.state || !formData.state.trim()) {
+          errors.state = "State cannot be empty or spaces only.";
+        } else if (!nameRegex.test(formData.state.trim())) {
+          errors.state = "Invalid state name. Only alphabets, spaces, and hyphens are allowed.";
+        }
+      
+        // Zip Code Validation
+        if (!formData.zip || !formData.zip.trim()) {
+          errors.zip = "Zip Code cannot be empty or spaces only.";
+        } else if (!zipRegex.test(formData.zip.trim())) {
+          errors.zip = "Invalid zip code. Must be between 5 and 10 digits.";
+        }
+      
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0; // Returns true if no errors
+      };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent page refresh
-        console.log("Form data:", formData);
+        // console.log("Form data:", formData);
+
+        if (!validateFields()) {
+            toast.error("Please fix the errors in the form.");
+            return;
+          }
 
         try {
-            const response = await axios.post(`http://localhost:3001/api/user/editprofile`, {
+            const response = await axios.put(`${ENDPOINT}/api/user/editprofile`, {
                 studentId: formData.studentId,
                 Sname: formData.Studentname,
                 Fname: formData.fatherName,
@@ -108,10 +189,11 @@ const Profile = () => {
 
             );
 
-            if (response.data.success) {
+            console.log(response.data);
+
+            if (response.data.message === "OK") {
                 toast.success("Profile updated successfully!", response.data);
-            }
-            else {
+            }else {
             toast.error("Profile update failed!");
             }
             } catch (error) {
@@ -152,6 +234,8 @@ const Profile = () => {
                             onChange={handleChange}
                             fullWidth
                             data-testid="student-name"
+                            error={!!formErrors.Studentname}
+                            helperText={formErrors.Studentname}
                         />
                     </div>
 
@@ -163,6 +247,8 @@ const Profile = () => {
                             value={formData.fatherName}
                             onChange={handleChange}
                             fullWidth
+                            error={!!formErrors.fatherName}
+                            helperText={formErrors.fatherName}
                         />
                     </div>
 
@@ -174,6 +260,8 @@ const Profile = () => {
                             value={formData.motherName}
                             onChange={handleChange}
                             fullWidth
+                            error={!!formErrors.motherName}
+                            helperText={formErrors.motherName}
                         />
                     </div>
 
@@ -242,7 +330,10 @@ const Profile = () => {
                             name="personalEmail"
                             value={formData.personalEmail}
                             onChange={handleChange}
-                            fullWidth/>
+                            fullWidth
+                            error={!!formErrors.personalEmail}
+                            helperText={formErrors.personalEmail}
+                            />
                         </div>
                         <div id="form-group">
                         <TextField
@@ -264,7 +355,10 @@ const Profile = () => {
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            fullWidth/>
+                            fullWidth
+                            error={!!formErrors.phone}
+                            helperText={formErrors.phone}
+                            />
                         </div>
                     </div>
 
@@ -276,7 +370,10 @@ const Profile = () => {
                             name="address"
                             value={formData.address}
                             onChange={handleChange}
-                            fullWidth/>
+                            fullWidth
+                            error={!!formErrors.address}
+                            helperText={formErrors.address}
+                            />
                     </div>
                     <div id="form-group">
                     <TextField
@@ -285,7 +382,10 @@ const Profile = () => {
                         name="city"
                         value={formData.city}
                         onChange={handleChange}
-                        fullWidth/>
+                        fullWidth
+                        error={!!formErrors.city}
+                        helperText={formErrors.city}
+                        />
                     </div>
                         
                     </div>
@@ -298,7 +398,10 @@ const Profile = () => {
                             name="state"
                             value={formData.state}
                             onChange={handleChange}
-                            fullWidth/>
+                            fullWidth
+                            error={!!formErrors.state}
+                            helperText={formErrors.state}
+                            />
                         </div>
                     <div id="form-group">
                     <TextField
@@ -307,7 +410,10 @@ const Profile = () => {
                         name="zip"
                         value={formData.zip}
                         onChange={handleChange}
-                        fullWidth/>
+                        fullWidth
+                        error={!!formErrors.zip}
+                        helperText={formErrors.zip}
+                        />
                     </div>
                     </div>
                 </fieldset>
