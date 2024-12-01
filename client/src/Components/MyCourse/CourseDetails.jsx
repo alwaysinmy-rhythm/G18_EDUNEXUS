@@ -129,6 +129,7 @@ const CourseDetails = () => {
 		fetchApiData2();
 	}, []);
 
+
 	const [value, setValue] = useState(0);
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Check for mobile view
