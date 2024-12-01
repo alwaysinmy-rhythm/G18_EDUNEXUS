@@ -18,10 +18,7 @@ const router = express.Router();
 router.route('/login').post(authUser);
 router.route('/authRole').post(protect,authRole);
 router.route('/viewprofile').get(viewProfile);
-router.route('/editprofile').post(editProfile);
-// router.route('/dashboard/mycourses/notes').get(courseNotes);
-router.route('/viewprofile').get(viewProfile);
-router.route('/editprofile').post(editProfile);
+router.route('/editprofile').put(editProfile);
 
 router.route('/dashboard/mycourses/:CID/notes').get(courseNotes);
 router.route('/profdashboard/mycourses/:CID/notes').get(courseNotes);

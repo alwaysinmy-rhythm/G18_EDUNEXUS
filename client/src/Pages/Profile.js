@@ -3,11 +3,9 @@ import '../CSS/Profile.css';
 import logo from '../Images/profile_logo.png';
 import TextField from '@mui/material/TextField';
 // import MenuItem from '@mui/material/MenuItem';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
 import { useEffect } from 'react';
-import { any } from 'prop-types';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const ENDPOINT = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
@@ -101,7 +99,7 @@ const Profile = () => {
         console.log("Form data:", formData);
 
         try {
-            const response = await axios.post(`${ENDPOINT}/api/user/editprofile`, {
+            const response = await axios.put(`${ENDPOINT}/api/user/editprofile`, {
                 studentId: formData.studentId,
                 Sname: formData.Studentname,
                 Fname: formData.fatherName,
@@ -117,7 +115,7 @@ const Profile = () => {
 
             );
             console.log("Response data:", response.data);
-            if (response.data.success) {
+            if (response.data.message === "OK") {
                 toast.success("Profile updated successfully!", response.data);
             }
             else {
@@ -187,21 +185,6 @@ const Profile = () => {
                     </div>
 
                     <div id="form-row">
-                        <div id="form-group">
-                        <TextField
-                            label="bdate"
-                            type="date"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            variant="standard" 
-                            name="bdate"
-                            value={formData.dob}
-                            fullWidth
-                            disabled
-                        />
-
-                        </div>
                         <div id="form-group">
                         <TextField
                             label="nationality"
