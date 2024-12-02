@@ -6,8 +6,7 @@ import TextField from '@mui/material/TextField';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { any } from 'prop-types';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const ENDPOINT = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
@@ -43,7 +42,10 @@ const Profile = () => {
         console.log(role);
         try {
 
-            const response = await axios.get(Api);
+            const response = await axios.get(Api, {
+                SID: SID,
+                role: role
+            });
             const data = response.data;
             console.log(data);
             setFormData({

@@ -153,7 +153,7 @@ export default function Navbar() {
 							: userInfo.role === "faculty"
 								? "profdashboard"
 								: "admindashboard",
-						"Result",
+						
 						"Mycourses",
 						"AboutUs",
 					].map((text, index) => (
@@ -191,9 +191,9 @@ export default function Navbar() {
 									>
 										{index === 0 && <DashboardIcon />}
 										{/* {index === 1 && <SchoolIcon />} */}
-										{index === 1 && <ReportIcon />}
-										{index === 2 && <CourseIcon />}
-										{index === 3 && <AboutUs />}
+										
+										{index === 1 && <CourseIcon />}
+										{index === 2 && <AboutUs />}
 									</ListItemIcon>
 									<ListItemText
 										primary={text}
@@ -215,7 +215,7 @@ export default function Navbar() {
 				<Divider />
 				{userInfo.role === "student" && (
 					<List>
-						{["FeesPayment", "CourseRegistration"].map(
+						{["Result","FeesPayment", "CourseRegistration"].map(
 							(text, index) => (
 								<ListItem key={text} disablePadding sx={{ display: "block" }}>
 									<Link
@@ -252,9 +252,10 @@ export default function Navbar() {
 																mr: "auto",
 															},
 												]}
-											>
-												{index === 0 && <PaymentIcon />}
-												{index === 1 && <CourseRegIcon />}
+											>  
+											{index === 0 && <ReportIcon />}
+											{index === 1 && <PaymentIcon />}
+											{index === 2 && <CourseRegIcon />}
 											</ListItemIcon>
 											<ListItemText
 												primary={text}

@@ -62,9 +62,9 @@ export default function TimeTable({ TableData }) {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>Time</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', zIndex:0 }}>Time</TableCell>
               {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map(day => (
-                <TableCell key={day} align="right" sx={{ fontWeight: 'bold' }}>
+                <TableCell key={day} align="right" sx={{ fontWeight: 'bold', zIndex:0 }}>
                   {day}
                 </TableCell>
               ))}
@@ -73,11 +73,11 @@ export default function TimeTable({ TableData }) {
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.time} sx={{ height: '55px' }}>
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" sx={{zIndex:0}}>
                   {row.time}
                 </TableCell>
                 {['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].map(day => (
-                  <TableCell align="right" key={day}>
+                  <TableCell align="right" key={day}  sx={{zIndex:0}}>
                     {row[day]} 
                   </TableCell>
                 ))}

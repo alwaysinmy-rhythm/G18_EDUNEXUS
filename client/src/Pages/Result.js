@@ -3,8 +3,8 @@ import '../CSS/Result.css';
 
 const Result = () => {
     const [studentDetails] = useState({
-        name: 'Neha Singh',
-        studentId: 'S002',
+        name: 'John Doe',
+        studentId: 'S001',
         program: 'B.Tech',
         semester: '4',
     });

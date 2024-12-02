@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import DashCards from '../Components/Dashboard/DashCards2';
+import DashCards from '../Components/Dashboard/DashCards';
 import Loader from './Loding';
 
 function Dashboard() {

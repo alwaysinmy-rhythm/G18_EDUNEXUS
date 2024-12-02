@@ -108,7 +108,7 @@ const CourseRegistration = () => {
         <div className="student-info">
           <div className="info-item">
             <span className="info-label">Student Name</span>
-            <span className="info-value">{formData.sid}</span>
+            <span className="info-value">John Doe</span>
           </div>
           <div className="info-item">
             <span className="info-label">Student ID:</span>
